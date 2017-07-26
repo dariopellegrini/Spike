@@ -1,2 +1,2 @@
 # Spike (WIP)
-An abstraction network layer over Volley inspired by [Moya for Swift](https://github.com/Moya/Moya)
+A network abstraction layer over Volley written in Kotlin, inspired by [Moya for Swift](https://github.com/Moya/Moya)
