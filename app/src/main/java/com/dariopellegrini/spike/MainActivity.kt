@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Spike.instance.configure(this)
+         Spike.instance.configure(this)
     }
 
     fun doSomething(view: View) {

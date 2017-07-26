@@ -24,7 +24,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
             currentURL = currentURL.removeSuffix("&")
         }
 
-        val request = SpikeRequest(method, currentURL, headers, parameters,
+        val request = SpikeRequest(method, currentURL, headers, parameters, null,
                 Response.Listener<SpikeResponse> {
                     response -> completion(response, null)
                 },
