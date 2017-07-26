@@ -2,6 +2,7 @@ package com.s4win.whatwelove.spike.network
 
 import android.util.Log
 import com.android.volley.*
+import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 import com.s4win.whatwelove.spike.response.SpikeError
 import com.s4win.whatwelove.spike.response.SpikeErrorResponse
 import com.s4win.whatwelove.spike.response.SpikeResponse
@@ -14,7 +15,12 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
         Log.i("SpikeNetwork", "Init Spike network")
     }
 
-    fun jsonRequest(url: String, method: Int, headers: Map<String, String>?, parameters: Map<String, Any>?, completion: (response: SpikeResponse?, error: SpikeErrorResponse?) -> Unit) {
+    fun jsonRequest(url: String,
+                    method: Int,
+                    headers: Map<String, String>?,
+                    parameters: Map<String, Any>?,
+                    multipartEntities: List<SpikeMultipartEntity>?,
+                    completion: (response: SpikeResponse?, error: SpikeErrorResponse?) -> Unit) {
         var currentURL = url
         if (parameters != null && method == Request.Method.GET) {
             currentURL = currentURL + "?"
@@ -24,7 +30,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
             currentURL = currentURL.removeSuffix("&")
         }
 
-        val request = SpikeRequest(method, currentURL, headers, parameters, null,
+        val request = SpikeRequest(method, currentURL, headers, parameters, multipartEntities,
                 Response.Listener<SpikeResponse> {
                     response -> completion(response, null)
                 },

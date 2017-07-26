@@ -17,7 +17,7 @@ class SpikeProvider<in T : TargetType> {
         }
 
         Spike.instance.network?.let { network ->
-            network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, {
+            network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
                 if (response != null) {
                     onSuccess(response)

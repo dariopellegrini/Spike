@@ -1,6 +1,7 @@
 package com.s4win.whatwelove
 
 import com.android.volley.Request
+import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 import com.s4win.whatwelove.spike.TargetType
 
 /**
@@ -65,6 +66,10 @@ sealed class TVMazeTarget: TargetType {
                 is DeleteShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
             }
         }
+
+    override val multipartEntities: List<SpikeMultipartEntity>?
+        get() = null
+
     override val parameters: Map<String, Any>?
         get() {
             when(this) {

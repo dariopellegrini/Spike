@@ -21,6 +21,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
 }
 
 dependencies {
@@ -32,6 +38,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
     compile 'com.android.volley:volley:1.0.0'
-    compile "org.apache.httpcomponents:httpcore:4.4.6"
-    compile files('libs/httpmime-4.5.3.jar')
+    compile('org.apache.httpcomponents:httpcore:4.+') {
+        exclude module: "httpclient"
+    }
+    compile('org.apache.httpcomponents:httpmime:4.3.6') {
+        exclude module: "httpclient"
+    }
 }

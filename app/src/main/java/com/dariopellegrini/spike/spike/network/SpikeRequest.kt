@@ -11,12 +11,16 @@ import com.s4win.whatwelove.spike.response.SpikeResponse
 import org.apache.http.HttpEntity
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.HttpMultipartMode
+import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.json.JSONObject
 import java.util.HashMap
 import com.android.volley.VolleyLog
-import org.apache.http.entity.mime.MultipartEntityBuilder
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import android.R.attr.data
+import org.apache.http.entity.mime.content.ByteArrayBody
+
+
 
 
 /**
@@ -38,26 +42,32 @@ class SpikeRequest : JsonRequest<SpikeResponse> {
         this.headers = headers as MutableMap<String, String>?
 
         multipartEntities?.let { multipartEntities ->
-            configureMultipartEntities(multipartEntities)
+            configureMultipartEntities(multipartEntities, parameters)
         }
     }
 
-    private fun configureMultipartEntities(multipartEntities: List<SpikeMultipartEntity>) {
+    private fun configureMultipartEntities(multipartEntities: List<SpikeMultipartEntity>, parameters: Map<String, Any>?) {
         this.multipartEntities = multipartEntities
         val builder = MultipartEntityBuilder.create()
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
 
+        parameters?.let {
+            parameters ->
+            for (entry in parameters.entries) {
+                builder.addTextBody(entry.key, entry.value.toString())
+            }
+        }
+
         multipartEntities.map {
             entity ->
-            val contentType = ContentType.create(entity.contentType)
-            builder.addBinaryBody(entity.label, entity.bytes, contentType, entity.fileName);
+            builder.addPart(entity.label, ByteArrayBody(entity.bytes, "image/jpeg", entity.fileName))
         }
         this.httpEntity = builder.build()
     }
 
     @Throws(AuthFailureError::class)
     override fun getHeaders(): Map<String, String> {
-        if (headers != null) {
+        if (headers != null && httpEntity == null) {
             return headers!!
         } else {
             return HashMap<String, String>()
