@@ -42,7 +42,7 @@ See this example (TVMazeAPI.kt):
 
 ``` kotlin
 
-// Each of this data class represent a call
+// Each of these data class represent a call
 data class GetShows(val query: String): TVMazeTarget()
 data class GetSingleShow(val query: String): TVMazeTarget()
 data class GetPeople(val query: String): TVMazeTarget()
