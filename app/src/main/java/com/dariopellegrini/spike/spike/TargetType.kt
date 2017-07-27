@@ -1,5 +1,6 @@
 package com.s4win.whatwelove.spike
 
+import com.dariopellegrini.spike.spike.network.SpikeMethod
 import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 
 /**
@@ -10,7 +11,7 @@ interface TargetType {
 
     val path: String
 
-    val method: Int
+    val method: SpikeMethod
 
     val headers: Map<String, String>?
 

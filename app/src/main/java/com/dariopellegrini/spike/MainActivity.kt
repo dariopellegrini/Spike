@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         bm2.compress(Bitmap.CompressFormat.PNG, 100, stream2)
         val bytes2 = stream2.toByteArray()
 
-
+/*
         val provider = SpikeProvider<DressesTarget>()
         provider.request(AddDress("Awesome dress", bytes1, bytes2), {
             response ->
@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
             error ->
             println(error.results.toString())
         })
+*/
 
-
- /*       val provider = SpikeProvider<TVMazeTarget>()
+        val provider = SpikeProvider<TVMazeTarget>()
         provider.request(GetShowInformation("1", embed = "cast"), {
             response ->
             println(response.results.toString())
@@ -55,6 +55,6 @@ class MainActivity : AppCompatActivity() {
             error ->
             println(error.results.toString())
         })
-*/
+
     }
 }

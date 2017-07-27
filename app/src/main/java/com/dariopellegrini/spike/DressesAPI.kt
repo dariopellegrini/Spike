@@ -1,6 +1,7 @@
 package com.dariopellegrini.spike
 
 import com.android.volley.Request
+import com.dariopellegrini.spike.spike.network.SpikeMethod
 import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 import com.s4win.whatwelove.spike.TargetType
 
@@ -24,10 +25,10 @@ sealed class DressesTarget: TargetType {
             }
         }
 
-    override val method: Int
+    override val method: SpikeMethod
         get() {
             when(this) {
-                is AddDress -> return Request.Method.POST
+                is AddDress -> return SpikeMethod.POST
             }
         }
     override val headers: Map<String, String>?

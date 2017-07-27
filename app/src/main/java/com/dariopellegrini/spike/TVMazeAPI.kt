@@ -1,6 +1,7 @@
 package com.s4win.whatwelove
 
 import com.android.volley.Request
+import com.dariopellegrini.spike.spike.network.SpikeMethod
 import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 import com.s4win.whatwelove.spike.TargetType
 
@@ -40,17 +41,17 @@ sealed class TVMazeTarget: TargetType {
             }
         }
 
-    override val method: Int
+    override val method: SpikeMethod
         get() {
             when(this) {
-                is GetShows -> return Request.Method.GET
-                is GetSingleShow -> return Request.Method.GET
-                is GetPeople -> return Request.Method.GET
-                is GetShowInformation -> return Request.Method.GET
-                is GetEdisodesByNumber -> return Request.Method.GET
-                is AddShow -> return Request.Method.POST
-                is UpdateShow -> return Request.Method.PATCH
-                is DeleteShow -> return Request.Method.DELETE
+                is GetShows -> return SpikeMethod.GET
+                is GetSingleShow -> return SpikeMethod.GET
+                is GetPeople -> return SpikeMethod.GET
+                is GetShowInformation -> return SpikeMethod.GET
+                is GetEdisodesByNumber -> return SpikeMethod.GET
+                is AddShow -> return SpikeMethod.POST
+                is UpdateShow -> return SpikeMethod.PATCH
+                is DeleteShow -> return SpikeMethod.DELETE
             }
         }
     override val headers: Map<String, String>?

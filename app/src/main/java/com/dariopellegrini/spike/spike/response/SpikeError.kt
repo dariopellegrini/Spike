@@ -6,6 +6,7 @@ package com.s4win.whatwelove.spike.response
 enum class SpikeError {
     noConnection,
     jsonParsingError,
+    unknownError,
     badRequest, // 400
     unauthorized, // 401
     paymentRequired, // 402
@@ -25,9 +26,15 @@ enum class SpikeError {
     requestedRangeNotSatisfiable, // 416
     expectationFailed, // 417
     enhanceYourCalm, // 418
-    unprocessableEntity, // 418
-    upgradeRequired , // 418
-    retryWith, // 418
+    misdirectedRequest, // 421
+    unprocessableEntity, // 422
+    locked, // 423
+    failedDependency, // 424
+    upgradeRequired , // 426
+    preconditionRequired, // 428
+    tooManyRequests, // 429
+    requestHeaderFieldsTooLarge, // 431
+    unavailableForLegalReasons, // 451
     internalServerError, // 500
     notImplemented, // 501
     badGateway, // 502

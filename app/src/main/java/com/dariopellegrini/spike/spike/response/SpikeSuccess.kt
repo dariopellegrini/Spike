@@ -12,4 +12,5 @@ enum class SpikeSuccess {
     resetContent, // 205
     partialContent, // 206
     multiStatus, // 207
+    unknown
 }
