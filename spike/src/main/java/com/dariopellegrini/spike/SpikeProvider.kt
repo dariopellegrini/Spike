@@ -1,10 +1,9 @@
-package com.dariopellegrini.spike.spike
+package com.dariopellegrini.spike
 
 import android.util.Log
 import com.dariopellegrini.spike.response.Spike
-import com.dariopellegrini.spike.spike.response.SpikeError
-import com.dariopellegrini.spike.spike.response.SpikeErrorResponse
-import com.dariopellegrini.spike.spike.response.SpikeResponse
+import com.dariopellegrini.spike.response.SpikeErrorResponse
+import com.dariopellegrini.spike.response.SpikeResponse
 
 /**
  * Created by dariopellegrini on 25/07/17.

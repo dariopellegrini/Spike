@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike.spike.response
+package com.dariopellegrini.spike.response
 
 /**
  * Created by dariopellegrini on 27/07/17.

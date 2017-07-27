@@ -3,7 +3,7 @@ package com.dariopellegrini.spike.response
 import android.content.Context
 import android.util.Log
 import com.android.volley.toolbox.Volley
-import com.dariopellegrini.spike.spike.network.SpikeNetwork
+import com.dariopellegrini.spike.network.SpikeNetwork
 
 /**
  * Created by Dario on 25/07/17.

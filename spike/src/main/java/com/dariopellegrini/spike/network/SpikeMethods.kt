@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike.spike.network
+package com.dariopellegrini.spike.network
 
 /**
  * Created by dariopellegrini on 27/07/17.

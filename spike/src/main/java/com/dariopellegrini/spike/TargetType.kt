@@ -1,7 +1,7 @@
-package com.dariopellegrini.spike.spike
+package com.dariopellegrini.spike
 
-import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
-import com.dariopellegrini.spike.spike.network.SpikeMethod
+import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
+import com.dariopellegrini.spike.network.SpikeMethod
 
 /**
  * Created by dariopellegrini on 25/07/17.

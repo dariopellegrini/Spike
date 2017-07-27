@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.dariopellegrini.spike.response.Spike
-import com.dariopellegrini.spike.spike.SpikeProvider
 import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity() {

@@ -1,12 +1,12 @@
-package com.dariopellegrini.spike.spike.network
+package com.dariopellegrini.spike.network
 
 import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
-import com.dariopellegrini.spike.spike.response.SpikeSuccessResponse
-import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
+import com.dariopellegrini.spike.response.SpikeSuccessResponse
+import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import org.apache.http.HttpEntity
 import org.apache.http.entity.mime.HttpMultipartMode
 import org.apache.http.entity.mime.MultipartEntityBuilder

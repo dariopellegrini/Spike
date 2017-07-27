@@ -1,10 +1,10 @@
-package com.dariopellegrini.spike.spike.network
+package com.dariopellegrini.spike.network
 
 import android.util.Log
 import com.android.volley.*
-import com.dariopellegrini.spike.spike.response.SpikeSuccessResponse
-import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
-import com.dariopellegrini.spike.spike.response.SpikeErrorResponse
+import com.dariopellegrini.spike.response.SpikeSuccessResponse
+import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
+import com.dariopellegrini.spike.response.SpikeErrorResponse
 
 @Suppress("NAME_SHADOWING")
 /**

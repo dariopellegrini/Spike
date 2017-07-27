@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike.spike.response
+package com.dariopellegrini.spike.response
 
 import com.android.volley.VolleyError
 

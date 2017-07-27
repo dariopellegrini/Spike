@@ -1,9 +1,8 @@
 package com.dariopellegrini.spike
 
 import com.android.volley.Request
-import com.dariopellegrini.spike.spike.TargetType
-import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
-import com.dariopellegrini.spike.spike.network.SpikeMethod
+import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
+import com.dariopellegrini.spike.network.SpikeMethod
 
 /**
  * Created by dariopellegrini on 26/07/17.
@@ -16,7 +15,7 @@ sealed class DressesTarget: TargetType {
 
     override val baseURL: String
         get() {
-            return "https://wuardrobe.com/"
+            return "https://wardrobe.com/"
         }
 
     override val path: String
