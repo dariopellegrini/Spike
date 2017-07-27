@@ -38,4 +38,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
     compile project(":spike")
+    compile 'com.google.code.gson:gson:2.8.0'
 }

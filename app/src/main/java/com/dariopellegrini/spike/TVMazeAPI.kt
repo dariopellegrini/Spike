@@ -2,6 +2,8 @@ package com.dariopellegrini.spike
 
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 /**
@@ -81,6 +83,43 @@ sealed class TVMazeTarget: TargetType {
                 is AddShow -> return mapOf("name" to name)
                 is UpdateShow -> return mapOf("name" to name)
                 is DeleteShow -> return null
+            }
+        }
+
+    override val successClosure: ((String) -> Any?)?
+        get() = {
+            result ->
+            when(this) {
+                is GetShows -> {
+                    val movieType = object : TypeToken<List<MovieContainer>>() {}.type
+                    Gson().fromJson<List<MovieContainer>>(result, movieType)
+                }
+
+                is GetSingleShow -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is GetPeople -> null
+
+                is GetShowInformation -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is GetEdisodesByNumber -> null
+
+                is AddShow -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is UpdateShow -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is DeleteShow -> null
             }
         }
 }

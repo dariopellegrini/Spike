@@ -8,6 +8,7 @@ import com.android.volley.toolbox.JsonRequest
 import com.dariopellegrini.spike.response.SpikeSuccessResponse
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import org.apache.http.HttpEntity
+import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.HttpMultipartMode
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.json.JSONObject
@@ -56,7 +57,7 @@ class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
 
         multipartEntities.map {
             entity ->
-            builder.addPart(entity.label, ByteArrayBody(entity.bytes, entity.contentType, entity.fileName))
+            builder.addPart(entity.label, ByteArrayBody(entity.bytes, ContentType.create(entity.contentType), entity.fileName))
         }
         this.httpEntity = builder.build()
     }
@@ -79,8 +80,8 @@ class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
             return Response.success<SpikeSuccessResponse>(jsonResponse,
                     HttpHeaderParser.parseCacheHeaders(response))
         }
-        val jsonResponse = SpikeSuccessResponse(response.statusCode, response.headers, resultString)
-        return Response.success(jsonResponse,
+        val successResponse = SpikeSuccessResponse(response.statusCode, response.headers, resultString)
+        return Response.success(successResponse,
                 HttpHeaderParser.parseCacheHeaders(response))
     }
 

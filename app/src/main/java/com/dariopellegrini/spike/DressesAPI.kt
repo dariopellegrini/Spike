@@ -3,6 +3,7 @@ package com.dariopellegrini.spike
 import com.android.volley.Request
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
+import com.dariopellegrini.spike.response.SpikeSuccessResponse
 
 /**
  * Created by dariopellegrini on 26/07/17.
@@ -12,7 +13,6 @@ data class AddDress(val name: String, val category: String, val dressImage: Byte
 data class UpdateDress(val dressID: String, val name: String, val category: String, val dressImage: ByteArray, val detailImage: ByteArray, val token: String): DressesTarget()
 
 sealed class DressesTarget: TargetType {
-
     override val baseURL: String
         get() {
             return "https://wardrobe.com/"
@@ -58,4 +58,7 @@ sealed class DressesTarget: TargetType {
                 is UpdateDress -> return mapOf("name" to name, "category" to category)
             }
         }
+
+    override val successClosure: ((String) -> Any?)?
+        get() = null
 }
