@@ -102,7 +102,7 @@ sealed class TVMazeTarget: TargetType {
                 is GetPeople -> return mapOf("Content-Type" to "application/json")
                 is GetShowInformation -> return mapOf("Content-Type" to "application/json")
                 is GetEdisodesByNumber -> return mapOf("Content-Type" to "application/json")
-                is AddShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
+                is AddShow -> return mapOf("user_token" to token)
                 is UpdateShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
                 is DeleteShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
             }
