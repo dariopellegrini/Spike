@@ -3,15 +3,11 @@ package com.dariopellegrini.spike
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.android.volley.Request
-import com.s4win.whatwelove.GetShowInformation
 import com.s4win.whatwelove.TVMazeTarget
 import com.s4win.whatwelove.spike.SpikeProvider
 import com.s4win.whatwelove.spike.response.Spike
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
-import android.support.v4.app.NotificationCompat.getExtras
-import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 import java.io.ByteArrayOutputStream
 
 
@@ -36,17 +32,17 @@ class MainActivity : AppCompatActivity() {
         bm2.compress(Bitmap.CompressFormat.PNG, 100, stream2)
         val bytes2 = stream2.toByteArray()
 
-/*
+
         val provider = SpikeProvider<DressesTarget>()
-        provider.request(AddDress("Awesome dress", bytes1, bytes2), {
+        provider.request(AddDress("Super awesome dress", "Super awesome category", bytes1, bytes2, "userToken"), {
             response ->
             println(response.results.toString())
         }, {
             error ->
             println(error.results.toString())
         })
-*/
 
+/*
         val provider = SpikeProvider<TVMazeTarget>()
         provider.request(GetShowInformation("1", embed = "cast"), {
             response ->
@@ -55,6 +51,6 @@ class MainActivity : AppCompatActivity() {
             error ->
             println(error.results.toString())
         })
-
+        */
     }
 }

@@ -56,14 +56,14 @@ class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
 
         multipartEntities.map {
             entity ->
-            builder.addPart(entity.label, ByteArrayBody(entity.bytes, "image/jpeg", entity.fileName))
+            builder.addPart(entity.label, ByteArrayBody(entity.bytes, entity.contentType, entity.fileName))
         }
         this.httpEntity = builder.build()
     }
 
     @Throws(AuthFailureError::class)
     override fun getHeaders(): Map<String, String> {
-        if (headers != null && httpEntity == null) {
+        if (headers != null) {
             return headers!!
         } else {
             return HashMap()
