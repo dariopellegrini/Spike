@@ -21,7 +21,7 @@ dependencies {
     compile 'com.github.dariopellegrini:Spike:v0.5'
 }
 ```
-This app uses apache http libraries that need the following code at the end of the android section in app/build.gradle. Hopefully in the future this won't be needed.
+This library uses apache http libraries that need the following code at the end of the android section in app/build.gradle. Hopefully in the future this won't be needed.
 ``` groovy
 packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
