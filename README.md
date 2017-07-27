@@ -37,7 +37,7 @@ Spike.instance.configure(context)
 ```
 
 This library lets you to split API request's details inside kotlin files, in order to have more control on what each API does and needs.
-Each file is a sealed class and must implement the interface TargetType. Every detail of each call is selected using a when statement:
+Each file is a sealed class and must implement the interface TargetType. Every detail of each call is selected using a when statement.
 See this example (TVMazeAPI.kt):
 
 ``` kotlin
