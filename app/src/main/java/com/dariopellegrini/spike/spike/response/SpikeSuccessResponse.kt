@@ -1,8 +1,5 @@
 package com.dariopellegrini.spike.spike.response
 
-import com.s4win.whatwelove.spike.response.SpikeResponse
-import com.s4win.whatwelove.spike.response.SpikeSuccess
-
 /**
  * Created by dariopellegrini on 27/07/17.
  */

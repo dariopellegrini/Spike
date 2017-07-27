@@ -1,15 +1,13 @@
 package com.dariopellegrini.spike
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.s4win.whatwelove.TVMazeTarget
-import com.s4win.whatwelove.spike.SpikeProvider
-import com.s4win.whatwelove.spike.response.Spike
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
+import com.dariopellegrini.spike.response.Spike
+import com.dariopellegrini.spike.spike.SpikeProvider
 import java.io.ByteArrayOutputStream
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-         Spike.instance.configure(this)
+        Spike.instance.configure(this)
     }
 
     fun doSomething(view: View) {
@@ -33,16 +31,17 @@ class MainActivity : AppCompatActivity() {
         val bytes2 = stream2.toByteArray()
 
 
+        /*
         val provider = SpikeProvider<DressesTarget>()
-        provider.request(AddDress("Super awesome dress", "Super awesome category", bytes1, bytes2, "userToken"), {
+        provider.request(AddDress("Super awesome dress 1", "Super awesome category 1", bytes1, bytes2, "userToken"), {
             response ->
             println(response.results.toString())
         }, {
             error ->
             println(error.results.toString())
         })
+        */
 
-/*
         val provider = SpikeProvider<TVMazeTarget>()
         provider.request(GetShowInformation("1", embed = "cast"), {
             response ->
@@ -51,6 +50,6 @@ class MainActivity : AppCompatActivity() {
             error ->
             println(error.results.toString())
         })
-        */
+
     }
 }

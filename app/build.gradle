@@ -9,7 +9,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.dariopellegrini.spike"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

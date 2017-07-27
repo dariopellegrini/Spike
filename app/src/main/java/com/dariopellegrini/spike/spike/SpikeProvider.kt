@@ -1,10 +1,10 @@
-package com.s4win.whatwelove.spike
+package com.dariopellegrini.spike.spike
 
 import android.util.Log
-import com.s4win.whatwelove.spike.response.Spike
-import com.s4win.whatwelove.spike.response.SpikeError
-import com.s4win.whatwelove.spike.response.SpikeErrorResponse
-import com.s4win.whatwelove.spike.response.SpikeResponse
+import com.dariopellegrini.spike.response.Spike
+import com.dariopellegrini.spike.spike.response.SpikeError
+import com.dariopellegrini.spike.spike.response.SpikeErrorResponse
+import com.dariopellegrini.spike.spike.response.SpikeResponse
 
 /**
  * Created by dariopellegrini on 25/07/17.

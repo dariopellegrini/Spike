@@ -1,4 +1,4 @@
-package com.s4win.whatwelove.spike.response
+package com.dariopellegrini.spike.spike.response
 
 import org.json.JSONObject
 

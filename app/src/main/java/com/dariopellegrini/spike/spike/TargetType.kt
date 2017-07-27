@@ -1,7 +1,7 @@
-package com.s4win.whatwelove.spike
+package com.dariopellegrini.spike.spike
 
+import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.spike.network.SpikeMethod
-import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
 
 /**
  * Created by dariopellegrini on 25/07/17.

@@ -1,7 +1,6 @@
-package com.s4win.whatwelove.spike.response
+package com.dariopellegrini.spike.spike.response
 
 import com.android.volley.VolleyError
-import org.json.JSONObject
 
 /**
  * Created by dariopellegrini on 25/07/17.

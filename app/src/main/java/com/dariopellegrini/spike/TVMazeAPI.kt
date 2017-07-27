@@ -1,9 +1,8 @@
-package com.s4win.whatwelove
+package com.dariopellegrini.spike
 
-import com.android.volley.Request
+import com.dariopellegrini.spike.spike.TargetType
+import com.dariopellegrini.spike.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.spike.network.SpikeMethod
-import com.dariopellegrini.spike.spike.upload.SpikeMultipartEntity
-import com.s4win.whatwelove.spike.TargetType
 
 /**
  * Created by dariopellegrini on 26/07/17.

@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike.spike.upload
+package com.dariopellegrini.spike.spike.multipart
 
 /**
  * Created by dariopellegrini on 26/07/17.

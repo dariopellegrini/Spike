@@ -1,4 +1,4 @@
-package com.s4win.whatwelove.spike.response
+package com.dariopellegrini.spike.spike.response
 
 /**
  * Created by dariopellegrini on 25/07/17.
