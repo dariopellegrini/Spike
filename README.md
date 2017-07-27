@@ -28,7 +28,7 @@ packagingOptions {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
     }
-    ```
+```
     
 ## Usage
 Before start init Spike:
