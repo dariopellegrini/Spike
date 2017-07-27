@@ -29,7 +29,7 @@ android {
             exclude 'META-INF/DEPENDENCIES'
             exclude 'META-INF/NOTICE'
             exclude 'META-INF/LICENSE'
-       }
+     }
 }
 ```
     
