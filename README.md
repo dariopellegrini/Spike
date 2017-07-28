@@ -123,6 +123,8 @@ sealed class TVMazeTarget: TargetType {
             }
         }
 }
+
+// Optional response closures
 ```
 
 After this the only thing to do is init a SpikeProvider and make a request using the desired instance:
@@ -144,6 +146,9 @@ Then error contains the same values plus a VolleyError object.
 It's possible to deal with network responses in the API file, implementing 2 optional closure variables.
 
 ```kotlin
+
+...
+
 override val successClosure: ((String) -> Any?)?
         get() = {
             result ->
