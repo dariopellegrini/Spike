@@ -37,6 +37,10 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                 Response.ErrorListener { error ->
                     completion(null, error)
                 })
+
+        request.setRetryPolicy(DefaultRetryPolicy(25000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
         requestQueue.add(request)
     }
 
