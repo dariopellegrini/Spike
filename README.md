@@ -69,71 +69,75 @@ sealed class TVMazeTarget: TargetType {
 // Path of each call
     override val path: String
         get() {
-            when(this) {
-                is GetShows -> return "search/shows"
-                is GetSingleShow -> return "singlesearch/shows"
-                is GetPeople -> return "search/people"
-                is GetShowInformation -> return "shows/" + showID
-                is GetEdisodesByNumber -> return "shows/" + showID
-                is AddShow -> return "shows/"
-                is UpdateShow -> return "shows/" + showID
-                is DeleteShow -> return "shows/" + showID
+            return when(this) {
+                is GetShows             -> "search/shows"
+                is GetSingleShow        -> "singlesearch/shows"
+                is GetPeople            -> "search/people"
+                is GetShowInformation   -> "shows/" + showID
+                is GetEdisodesByNumber  -> "shows/" + showID
+                is AddShow              -> "shows/"
+                is UpdateShow           -> "shows/" + showID
+                is DeleteShow           -> "shows/" + showID
             }
         }
 
 // Method of each call
     override val method: SpikeMethod
         get() {
-            when(this) {
-                is GetShows -> return SpikeMethod.GET
-                is GetSingleShow -> return SpikeMethod.GET
-                is GetPeople -> return SpikeMethod.GET
-                is GetShowInformation -> return SpikeMethod.GET
-                is GetEdisodesByNumber -> return SpikeMethod.GET
-                is AddShow -> return SpikeMethod.POST
-                is UpdateShow -> return SpikeMethod.PATCH
-                is DeleteShow -> return SpikeMethod.DELETE
+            return when(this) {
+                is GetShows             -> SpikeMethod.GET
+                is GetSingleShow        -> SpikeMethod.GET
+                is GetPeople            -> SpikeMethod.GET
+                is GetShowInformation   -> SpikeMethod.GET
+                is GetEdisodesByNumber  -> SpikeMethod.GET
+                is AddShow              -> SpikeMethod.POST
+                is UpdateShow           -> SpikeMethod.PATCH
+                is DeleteShow           -> SpikeMethod.DELETE
             }
         }
         
 // Headers of each call
     override val headers: Map<String, String>?
         get() {
-            when(this) {
-                is GetShows -> return mapOf("Content-Type" to "application/json")
-                is GetSingleShow -> return mapOf("Content-Type" to "application/json")
-                is GetPeople -> return mapOf("Content-Type" to "application/json")
-                is GetShowInformation -> return mapOf("Content-Type" to "application/json")
-                is GetEdisodesByNumber -> return mapOf("Content-Type" to "application/json")
-                is AddShow -> return mapOf("user_token" to token)
-                is UpdateShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
-                is DeleteShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
+            return when(this) {
+                is GetShows             -> mapOf("Content-Type" to "application/json")
+                is GetSingleShow        -> mapOf("Content-Type" to "application/json")
+                is GetPeople            -> mapOf("Content-Type" to "application/json")
+                is GetShowInformation   -> mapOf("Content-Type" to "application/json")
+                is GetEdisodesByNumber  -> mapOf("Content-Type" to "application/json")
+                is AddShow              -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is UpdateShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is DeleteShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
             }
         }
 
-// Multipart entries to load multipart form data
+// Multipart entries to load multipart form data: this is optional
     override val multipartEntities: List<SpikeMultipartEntity>?
-        get() = is GetShows -> return null
-                is GetSingleShow -> return null
-                is GetPeople -> return null
-                is GetShowInformation -> null
-                is GetEdisodesByNumber -> null
-                is AddShow -> return listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
-                is UpdateShow -> return null
-                is DeleteShow -> return null
+        get() {
+            return when(this) {
+                is GetShows             -> null
+                is GetSingleShow        -> null
+                is GetPeople            -> null
+                is GetShowInformation   -> null
+                is GetEdisodesByNumber  -> null
+                is AddShow              -> listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
+                is UpdateShow           -> null
+                is DeleteShow           -> null
+            }
+        }
 
 // Call's parameters with the labels wanted by backend services
     override val parameters: Map<String, Any>?
         get() {
-            when(this) {
-                is GetShows -> return mapOf("q" to query)
-                is GetSingleShow -> return mapOf("q" to query)
-                is GetPeople -> return mapOf("q" to query)
-                is GetShowInformation -> return mapOf("embed" to embed)
-                is GetEdisodesByNumber -> return mapOf("season" to season, "number" to number)
-                is AddShow -> return mapOf("name" to name)
-                is UpdateShow -> return mapOf("name" to name)
-                is DeleteShow -> return null
+            return when(this) {
+                is GetShows             -> mapOf("q" to query)
+                is GetSingleShow        -> mapOf("q" to query)
+                is GetPeople            -> mapOf("q" to query)
+                is GetShowInformation   -> mapOf("embed" to embed)
+                is GetEdisodesByNumber  -> mapOf("season" to season, "number" to number)
+                is AddShow              -> mapOf("name" to name)
+                is UpdateShow           -> mapOf("name" to name)
+                is DeleteShow           -> null
             }
         }
 }
