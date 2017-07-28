@@ -214,7 +214,7 @@ val provider = SpikeProvider<TVMazeTarget>()
             // Printing error computed result TVMazeError? type
             println(error.computedResult)
         })
-``
+```
 
 ## TODO
 - File upload.
