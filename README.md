@@ -207,11 +207,11 @@ Because computedResult is an Any? type, provider can perform a type safety call 
 val provider = SpikeProvider<TVMazeTarget>()
         provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
             response ->
-            // Printing success computed result Movie type
+            // Printing success computed result Movie? type
             println(response.computedResult)
         }, {
             error ->
-            // Printing error computed result TVMazeError type
+            // Printing error computed result TVMazeError? type
             println(error.computedResult)
         })
 ``
