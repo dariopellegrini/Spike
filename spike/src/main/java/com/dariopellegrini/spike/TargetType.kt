@@ -18,10 +18,15 @@ interface TargetType {
     val headers: Map<String, String>?
 
     val multipartEntities: List<SpikeMultipartEntity>?
+        get () = null
 
     val parameters: Map<String, Any>?
 
     val successClosure: ((String) -> (Any?))?
+        get () = null
+
+    val errorClosure: ((String) -> (Any?))?
+        get () = null
 
     // Task
 

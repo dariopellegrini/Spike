@@ -5,8 +5,9 @@ import com.android.volley.VolleyError
 /**
  * Created by dariopellegrini on 25/07/17.
  */
-open class SpikeErrorResponse(statusCode: Int, headers: Map<String, String>?, results: String?, volleyError: VolleyError?): SpikeResponse(statusCode, headers, results) {
+open class SpikeErrorResponse<T>(statusCode: Int, headers: Map<String, String>?, results: String?, volleyError: VolleyError?): SpikeResponse(statusCode, headers, results) {
     val volleyError = volleyError
+    var computedResult: T? = null
 
     val error: SpikeError get() {
         when(statusCode) {

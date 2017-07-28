@@ -20,7 +20,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                     headers: Map<String, String>?,
                     parameters: Map<String, Any>?,
                     multipartEntities: List<SpikeMultipartEntity>?,
-                    completion: (response: SpikeSuccessResponse?, error: SpikeErrorResponse?) -> Unit) {
+                    completion: (response: SpikeNetworkResponse?, error: VolleyError?) -> Unit) {
         var currentURL = url
         if (parameters != null && method == SpikeMethod.GET) {
             currentURL = currentURL + "?"
@@ -31,30 +31,11 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
         }
 
         val request = SpikeRequest(getVolleyMethod(method), currentURL, headers, parameters, multipartEntities,
-                Response.Listener<SpikeSuccessResponse> {
+                Response.Listener<SpikeNetworkResponse> {
                     response -> completion(response, null)
                 },
                 Response.ErrorListener { error ->
-                    val networkResponse = error.networkResponse
-                    if (networkResponse != null) {
-                        val statusCode = error.networkResponse.statusCode
-                        val headers = error.networkResponse.headers
-                        val parameters = String(error.networkResponse.data)
-                        val errorResponse = SpikeErrorResponse(statusCode, headers, parameters, error)
-                        completion(null, errorResponse)
-                    } else if (error is NoConnectionError) {
-                        val statusCode = -1001
-                        val headers = null
-                        val parameters = null
-                        val errorResponse = SpikeErrorResponse(statusCode, headers, parameters, error)
-                        completion(null, errorResponse)
-                    } else {
-                        val statusCode = 0
-                        val headers = null
-                        val parameters = null
-                        val errorResponse = SpikeErrorResponse(statusCode, headers, parameters, error)
-                        completion(null, errorResponse)
-                    }
+                    completion(null, error)
                 })
         requestQueue.add(request)
     }

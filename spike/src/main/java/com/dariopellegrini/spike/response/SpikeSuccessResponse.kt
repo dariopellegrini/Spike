@@ -3,8 +3,8 @@ package com.dariopellegrini.spike.response
 /**
  * Created by dariopellegrini on 27/07/17.
  */
-class SpikeSuccessResponse(statusCode: Int, headers: Map<String, String>?, results: String?): SpikeResponse(statusCode, headers, results) {
-    var computedResult: Any? = null
+class SpikeSuccessResponse<T>(statusCode: Int, headers: Map<String, String>?, results: String?): SpikeResponse(statusCode, headers, results) {
+    var computedResult: T? = null
 
     val success: SpikeSuccess get() {
         when(statusCode) {

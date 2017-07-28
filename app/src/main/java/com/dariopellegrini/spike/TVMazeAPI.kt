@@ -1,5 +1,8 @@
 package com.dariopellegrini.spike
 
+import com.dariopellegrini.spike.model.Movie
+import com.dariopellegrini.spike.model.MovieContainer
+import com.dariopellegrini.spike.model.TVMazeError
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.google.gson.Gson
@@ -30,42 +33,42 @@ sealed class TVMazeTarget: TargetType {
 
     override val path: String
         get() {
-            when(this) {
-                is GetShows -> return "search/shows"
-                is GetSingleShow -> return "singlesearch/shows"
-                is GetPeople -> return "search/people"
-                is GetShowInformation -> return "shows/" + showID
-                is GetEdisodesByNumber -> return "shows/" + showID
-                is AddShow -> return "shows/"
-                is UpdateShow -> return "shows/" + showID
-                is DeleteShow -> return "shows/" + showID
+            return when(this) {
+                is GetShows             -> "search/shows"
+                is GetSingleShow        -> "singlesearch/shows"
+                is GetPeople            -> "search/people"
+                is GetShowInformation   -> "shows/" + showID
+                is GetEdisodesByNumber  -> "shows/" + showID
+                is AddShow              -> "shows/"
+                is UpdateShow           -> "shows/" + showID
+                is DeleteShow           -> "shows/" + showID
             }
         }
 
     override val method: SpikeMethod
         get() {
-            when(this) {
-                is GetShows -> return SpikeMethod.GET
-                is GetSingleShow -> return SpikeMethod.GET
-                is GetPeople -> return SpikeMethod.GET
-                is GetShowInformation -> return SpikeMethod.GET
-                is GetEdisodesByNumber -> return SpikeMethod.GET
-                is AddShow -> return SpikeMethod.POST
-                is UpdateShow -> return SpikeMethod.PATCH
-                is DeleteShow -> return SpikeMethod.DELETE
+            return when(this) {
+                is GetShows             -> SpikeMethod.GET
+                is GetSingleShow        -> SpikeMethod.GET
+                is GetPeople            -> SpikeMethod.GET
+                is GetShowInformation   -> SpikeMethod.GET
+                is GetEdisodesByNumber  -> SpikeMethod.GET
+                is AddShow              -> SpikeMethod.POST
+                is UpdateShow           -> SpikeMethod.PATCH
+                is DeleteShow           -> SpikeMethod.DELETE
             }
         }
     override val headers: Map<String, String>?
         get() {
-            when(this) {
-                is GetShows -> return mapOf("Content-Type" to "application/json")
-                is GetSingleShow -> return mapOf("Content-Type" to "application/json")
-                is GetPeople -> return mapOf("Content-Type" to "application/json")
-                is GetShowInformation -> return mapOf("Content-Type" to "application/json")
-                is GetEdisodesByNumber -> return mapOf("Content-Type" to "application/json")
-                is AddShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
-                is UpdateShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
-                is DeleteShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
+            return when(this) {
+                is GetShows             -> mapOf("Content-Type" to "application/json")
+                is GetSingleShow        -> mapOf("Content-Type" to "application/json")
+                is GetPeople            -> mapOf("Content-Type" to "application/json")
+                is GetShowInformation   -> mapOf("Content-Type" to "application/json")
+                is GetEdisodesByNumber  -> mapOf("Content-Type" to "application/json")
+                is AddShow              -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is UpdateShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is DeleteShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
             }
         }
 
@@ -74,15 +77,15 @@ sealed class TVMazeTarget: TargetType {
 
     override val parameters: Map<String, Any>?
         get() {
-            when(this) {
-                is GetShows -> return mapOf("q" to query)
-                is GetSingleShow -> return mapOf("q" to query)
-                is GetPeople -> return mapOf("q" to query)
-                is GetShowInformation -> return mapOf("embed" to embed)
-                is GetEdisodesByNumber -> return mapOf("season" to season, "number" to number)
-                is AddShow -> return mapOf("name" to name)
-                is UpdateShow -> return mapOf("name" to name)
-                is DeleteShow -> return null
+            return when(this) {
+                is GetShows             -> null
+                is GetSingleShow        -> mapOf("q" to query)
+                is GetPeople            -> mapOf("q" to query)
+                is GetShowInformation   -> mapOf("embed" to embed)
+                is GetEdisodesByNumber  -> mapOf("season" to season, "number" to number)
+                is AddShow              -> mapOf("name" to name)
+                is UpdateShow           -> mapOf("name" to name)
+                is DeleteShow           -> null
             }
         }
 
@@ -121,5 +124,11 @@ sealed class TVMazeTarget: TargetType {
 
                 is DeleteShow -> null
             }
+        }
+
+    override val errorClosure: ((String) -> Any?)?
+        get() = { errorResult ->
+            val errorType = object : TypeToken<TVMazeError>() {}.type
+            Gson().fromJson<TVMazeError>(errorResult, errorType)
         }
 }

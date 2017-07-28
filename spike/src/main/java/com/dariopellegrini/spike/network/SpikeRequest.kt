@@ -23,7 +23,7 @@ import org.apache.http.entity.mime.content.ByteArrayBody
 /**
  * Created by dariopellegrini on 25/07/17.
  */
-class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
+class SpikeRequest : JsonRequest<SpikeNetworkResponse> {
     private var headers: Map<String, String>? = null
     private var multipartEntities: List<SpikeMultipartEntity>? = null
     var httpEntity: HttpEntity? = null
@@ -33,7 +33,7 @@ class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
                 headers: Map<String, String>?,
                 parameters: Map<String, Any>?,
                 multipartEntities: List<SpikeMultipartEntity>?,
-                responseListener: Response.Listener<SpikeSuccessResponse>,
+                responseListener: Response.Listener<SpikeNetworkResponse>,
                 errorListener: Response.ErrorListener):
             super(method, url, (if (parameters == null) null else JSONObject(parameters).toString()), responseListener, errorListener) {
         this.headers = headers as MutableMap<String, String>?
@@ -71,16 +71,16 @@ class SpikeRequest : JsonRequest<SpikeSuccessResponse> {
         }
     }
 
-    override fun parseNetworkResponse(response: NetworkResponse?): Response<SpikeSuccessResponse> {
+    override fun parseNetworkResponse(response: NetworkResponse?): Response<SpikeNetworkResponse> {
         val data = response!!.data
         // val charset = HttpHeaderParser.parseCharset(response!!.headers, PROTOCOL_CHARSET)
         val resultString = String(data)
         if (resultString.isEmpty()) { // Accepting empty results
-            val jsonResponse = SpikeSuccessResponse(response.statusCode, response.headers, null)
-            return Response.success<SpikeSuccessResponse>(jsonResponse,
+            val jsonResponse = SpikeNetworkResponse(response.statusCode, response.headers, null)
+            return Response.success<SpikeNetworkResponse>(jsonResponse,
                     HttpHeaderParser.parseCacheHeaders(response))
         }
-        val successResponse = SpikeSuccessResponse(response.statusCode, response.headers, resultString)
+        val successResponse = SpikeNetworkResponse(response.statusCode, response.headers, resultString)
         return Response.success(successResponse,
                 HttpHeaderParser.parseCacheHeaders(response))
     }

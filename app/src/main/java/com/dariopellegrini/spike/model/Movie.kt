@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spike.model
 
 import com.google.gson.annotations.SerializedName
 
