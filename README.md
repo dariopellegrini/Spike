@@ -184,8 +184,8 @@ override val successClosure: ((String) -> Any?)?
         }
 ```
 
-Here you can compute the result string from network, making for example a Gson mapping like in the example.
-Result of this will be in computedResult inside povider request's closures as a parameter of type Any?.
+Here you can compute the result string from network (making for example a Gson mapping).
+Result of those closures will be in computedResult inside povider request's closures as a parameter of type Any?.
 
 ```kotlin
 val provider = SpikeProvider<TVMazeTarget>()
@@ -207,10 +207,12 @@ Because computedResult is an Any? type, provider can perform a type safety call 
 val provider = SpikeProvider<TVMazeTarget>()
         provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
             response ->
-            println(response.results.toString())
+            // Printing success computed result Movie type
+            println(response.computedResult)
         }, {
             error ->
-            println(error.results.toString())
+            // Printing error computed result TVMazeError type
+            println(error.computedResult)
         })
 ``
 
