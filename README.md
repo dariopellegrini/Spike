@@ -45,7 +45,7 @@ See this example (TVMazeAPI.kt):
 
 ``` kotlin
 
-// Each of these data class represent a call
+// Each of these data class represents a call
 data class GetShows(val query: String): TVMazeTarget()
 data class GetShowInformation(val showID: String, val embed: String): TVMazeTarget()
 
