@@ -35,7 +35,7 @@ class SpikeProvider<in T : TargetType> {
         }
     }
 
-    fun <R, E>requestTypeSafe(target: T, onSuccess: (SpikeSuccessResponse<R>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
+    fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
         if (Spike.instance.network == null) {
             Log.i("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
             return
@@ -45,7 +45,7 @@ class SpikeProvider<in T : TargetType> {
             network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
                 if (response != null) {
-                    onSuccess(createSuccessResponse<R>(response, target))
+                    onSuccess(createSuccessResponse<S>(response, target))
                 } else if (error != null) {
                     onError(createErrorResponse<E>(error, target))
                 }
@@ -54,14 +54,14 @@ class SpikeProvider<in T : TargetType> {
         }
     }
 
-    private fun <R>createSuccessResponse(response: SpikeNetworkResponse, target: TargetType) : SpikeSuccessResponse<R> {
+    private fun <S>createSuccessResponse(response: SpikeNetworkResponse, target: TargetType) : SpikeSuccessResponse<S> {
         // Creating success response
-        val successResponse = SpikeSuccessResponse<R>(response.statusCode, response.headers, response.results)
+        val successResponse = SpikeSuccessResponse<S>(response.statusCode, response.headers, response.results)
         target.successClosure?.let {
             closure ->
             successResponse.results?.let {
                 results ->
-                successResponse.computedResult = closure(successResponse.results) as? R
+                successResponse.computedResult = closure(successResponse.results) as? S
             }
         }
         return successResponse

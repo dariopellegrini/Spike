@@ -20,7 +20,7 @@ data class GetShowInformation(val showID: String, val embed: String): TVMazeTarg
 data class GetEdisodesByNumber(val showID: String, val season: Int, val number: Int): TVMazeTarget()
 
 // Following actually don't exists
-data class AddShow(val name: String, val token: String): TVMazeTarget()
+data class AddShow(val name: String, val coverImage: ByteArray, val token: String): TVMazeTarget()
 data class UpdateShow(val showID: String, val name: String, val token: String): TVMazeTarget()
 data class DeleteShow(val showID: String, val token: String): TVMazeTarget()
 
@@ -73,12 +73,23 @@ sealed class TVMazeTarget: TargetType {
         }
 
     override val multipartEntities: List<SpikeMultipartEntity>?
-        get() = null
+        get() {
+            return when(this) {
+                is GetShows             -> null
+                is GetSingleShow        -> null
+                is GetPeople            -> null
+                is GetShowInformation   -> null
+                is GetEdisodesByNumber  -> null
+                is AddShow              -> listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
+                is UpdateShow           -> null
+                is DeleteShow           -> null
+            }
+        }
 
     override val parameters: Map<String, Any>?
         get() {
             return when(this) {
-                is GetShows             -> null
+                is GetShows             -> mapOf("q" to query)
                 is GetSingleShow        -> mapOf("q" to query)
                 is GetPeople            -> mapOf("q" to query)
                 is GetShowInformation   -> mapOf("embed" to embed)

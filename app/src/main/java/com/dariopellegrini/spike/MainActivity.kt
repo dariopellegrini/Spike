@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.dariopellegrini.spike.model.Movie
-import com.dariopellegrini.spike.model.TVMazeError
 import com.dariopellegrini.spike.response.Spike
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 */
 
         val provider = SpikeProvider<TVMazeTarget>()
-        provider.requestTypeSafe<Movie, TVMazeError>(GetShows("girls"), {
+        provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
             response ->
             println(response.results.toString())
         }, {
