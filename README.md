@@ -47,10 +47,7 @@ See this example (TVMazeAPI.kt):
 
 // Each of these data class represent a call
 data class GetShows(val query: String): TVMazeTarget()
-data class GetSingleShow(val query: String): TVMazeTarget()
-data class GetPeople(val query: String): TVMazeTarget()
 data class GetShowInformation(val showID: String, val embed: String): TVMazeTarget()
-data class GetEdisodesByNumber(val showID: String, val season: Int, val number: Int): TVMazeTarget()
 
 // Following actually don't exists
 data class AddShow(val name: String, val coverImage: ByteArray, val token: String): TVMazeTarget()
@@ -71,10 +68,7 @@ sealed class TVMazeTarget: TargetType {
         get() {
             return when(this) {
                 is GetShows             -> "search/shows"
-                is GetSingleShow        -> "singlesearch/shows"
-                is GetPeople            -> "search/people"
                 is GetShowInformation   -> "shows/" + showID
-                is GetEdisodesByNumber  -> "shows/" + showID
                 is AddShow              -> "shows/"
                 is UpdateShow           -> "shows/" + showID
                 is DeleteShow           -> "shows/" + showID
@@ -86,10 +80,7 @@ sealed class TVMazeTarget: TargetType {
         get() {
             return when(this) {
                 is GetShows             -> SpikeMethod.GET
-                is GetSingleShow        -> SpikeMethod.GET
-                is GetPeople            -> SpikeMethod.GET
                 is GetShowInformation   -> SpikeMethod.GET
-                is GetEdisodesByNumber  -> SpikeMethod.GET
                 is AddShow              -> SpikeMethod.POST
                 is UpdateShow           -> SpikeMethod.PATCH
                 is DeleteShow           -> SpikeMethod.DELETE
@@ -101,10 +92,7 @@ sealed class TVMazeTarget: TargetType {
         get() {
             return when(this) {
                 is GetShows             -> mapOf("Content-Type" to "application/json")
-                is GetSingleShow        -> mapOf("Content-Type" to "application/json")
-                is GetPeople            -> mapOf("Content-Type" to "application/json")
                 is GetShowInformation   -> mapOf("Content-Type" to "application/json")
-                is GetEdisodesByNumber  -> mapOf("Content-Type" to "application/json")
                 is AddShow              -> mapOf("Content-Type" to "application/json", "user_token" to token)
                 is UpdateShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
                 is DeleteShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
@@ -116,10 +104,7 @@ sealed class TVMazeTarget: TargetType {
         get() {
             return when(this) {
                 is GetShows             -> null
-                is GetSingleShow        -> null
-                is GetPeople            -> null
                 is GetShowInformation   -> null
-                is GetEdisodesByNumber  -> null
                 is AddShow              -> listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
                 is UpdateShow           -> null
                 is DeleteShow           -> null
@@ -131,10 +116,7 @@ sealed class TVMazeTarget: TargetType {
         get() {
             return when(this) {
                 is GetShows             -> mapOf("q" to query)
-                is GetSingleShow        -> mapOf("q" to query)
-                is GetPeople            -> mapOf("q" to query)
                 is GetShowInformation   -> mapOf("embed" to embed)
-                is GetEdisodesByNumber  -> mapOf("season" to season, "number" to number)
                 is AddShow              -> mapOf("name" to name)
                 is UpdateShow           -> mapOf("name" to name)
                 is DeleteShow           -> null
@@ -155,8 +137,77 @@ val provider = SpikeProvider<TVMazeTarget>()
         })
 ```
 
-Here response object contains status code, an enum value describing status code, headers in map and body in String.
+Here response object contains status code, an enum value describing status code, headers in map, result in String and a computed result (see later).
 Then error contains the same values plus a VolleyError object.
+
+## Closure responses
+It's possible to deal with network responses in the API file, implementing 2 optional closure variables.
+
+```kotlin
+override val successClosure: ((String) -> Any?)?
+        get() = {
+            result ->
+            when(this) {
+                is GetShows -> {
+                    val movieType = object : TypeToken<List<MovieContainer>>() {}.type
+                    Gson().fromJson<List<MovieContainer>>(result, movieType)
+                }
+
+                is GetShowInformation -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is AddShow -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is UpdateShow -> {
+                    val movieType = object : TypeToken<Movie>() {}.type
+                    Gson().fromJson<Movie>(result, movieType)
+                }
+
+                is DeleteShow -> null
+            }
+        }
+
+    override val errorClosure: ((String) -> Any?)?
+        get() = { errorResult ->
+            val errorType = object : TypeToken<TVMazeError>() {}.type
+            Gson().fromJson<TVMazeError>(errorResult, errorType)
+        }
+```
+
+Here you can compute the result string from network, making for example a Gson mapping like in the example.
+Result of this will be in computedResult inside povider request's closures as a parameter of type Any?.
+
+```kotlin
+val provider = SpikeProvider<TVMazeTarget>()
+        provider.request(GetShowInformation("1", "cast"), {
+            response ->
+            // Printing success computed result
+            println(response.computedResult)
+        }, {
+            error ->
+            // Printing error computed result
+            println(error.computedResult)
+        })
+```
+
+Because computedResult is an Any? type, provider can perform a type safety call so that computed results for success and error have specific types.
+
+```kotlin
+// Movie and TVMazeError are data classes for TVMaze APIs
+val provider = SpikeProvider<TVMazeTarget>()
+        provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
+            response ->
+            println(response.results.toString())
+        }, {
+            error ->
+            println(error.results.toString())
+        })
+``
 
 ## TODO
 - File upload.
