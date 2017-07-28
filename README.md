@@ -23,11 +23,14 @@ dependencies {
 ```
 This library uses apache http libraries that need the following code at the end of the android section in app/build.gradle. Hopefully in the future this won't be needed.
 ``` groovy
-packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-    }
+android {
+    ...
+    packagingOptions {
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/LICENSE'
+     }
+}
 ```
     
 ## Usage
@@ -37,12 +40,12 @@ Spike.instance.configure(context)
 ```
 
 This library lets you to split API request's details inside kotlin files, in order to have more control on what each API does and needs.
-Each file is a sealed class and must implement the interface TargetType. Every detail of each call is selected using a when statement:
+Each file is a sealed class and must implement the interface TargetType. Every detail of each call is selected using a when statement.
 See this example (TVMazeAPI.kt):
 
 ``` kotlin
 
-// Each of this data class represent a call
+// Each of these data class represent a call
 data class GetShows(val query: String): TVMazeTarget()
 data class GetSingleShow(val query: String): TVMazeTarget()
 data class GetPeople(val query: String): TVMazeTarget()
@@ -102,7 +105,7 @@ sealed class TVMazeTarget: TargetType {
                 is GetPeople -> return mapOf("Content-Type" to "application/json")
                 is GetShowInformation -> return mapOf("Content-Type" to "application/json")
                 is GetEdisodesByNumber -> return mapOf("Content-Type" to "application/json")
-                is AddShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
+                is AddShow -> return mapOf("user_token" to token)
                 is UpdateShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
                 is DeleteShow -> return mapOf("Content-Type" to "application/json", "user_token" to token)
             }
