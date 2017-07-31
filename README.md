@@ -18,7 +18,7 @@ Then add as dependency to yout app/build.gradle
 ``` groovy
 dependencies {
     ...
-    compile 'com.github.dariopellegrini:Spike:v0.5'
+    compile 'com.github.dariopellegrini:Spike:v0.6.1'
 }
 ```
 This library uses apache http libraries that need the following code at the end of the android section in app/build.gradle. Hopefully in the future this won't be needed.
