@@ -59,6 +59,6 @@ sealed class DressesTarget: TargetType {
             }
         }
 
-    override val successClosure: ((String) -> Any?)?
+    override val successClosure: ((String, Map<String, String>?) -> Any?)?
         get() = null
 }

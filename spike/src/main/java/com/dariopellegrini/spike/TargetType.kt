@@ -22,10 +22,10 @@ interface TargetType {
 
     val parameters: Map<String, Any>?
 
-    val successClosure: ((String) -> (Any?))?
+    val successClosure: ((String, Map<String, String>?) -> (Any?))?
         get () = null
 
-    val errorClosure: ((String) -> (Any?))?
+    val errorClosure: ((String, Map<String, String>?) -> (Any?))?
         get () = null
 
     // Task

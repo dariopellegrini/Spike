@@ -73,7 +73,7 @@ class SpikeProvider<in T : TargetType> {
             closure ->
             successResponse.results?.let {
                 results ->
-                successResponse.computedResult = closure(successResponse.results) as? S
+                successResponse.computedResult = closure(successResponse.results, successResponse.headers) as? S
             }
         }
         return successResponse
@@ -92,7 +92,7 @@ class SpikeProvider<in T : TargetType> {
                 closure ->
                 results.let {
                     results ->
-                    errorResponse.computedResult = closure(results) as? E
+                    errorResponse.computedResult = closure(results, errorResponse.headers) as? E
                 }
             }
 

@@ -82,9 +82,9 @@ sealed class TVMazeTarget: TargetType {
             }
         }
 
-    override val successClosure: ((String) -> Any?)?
+    override val successClosure: ((String, Map<String, String>?) -> Any?)?
         get() = {
-            result ->
+            result, headers ->
             when(this) {
                 is GetShows -> {
                     val movieType = object : TypeToken<List<MovieContainer>>() {}.type
@@ -93,7 +93,11 @@ sealed class TVMazeTarget: TargetType {
 
                 is GetShowInformation -> {
                     val movieType = object : TypeToken<Movie>() {}.type
-                    Gson().fromJson<Movie>(result, movieType)
+                    var movie = Gson().fromJson<Movie>(result, movieType)
+                    if (headers != null && headers.containsKey("token")) {
+                        movie.name = headers["token"].toString()
+                    }
+                    movie
                 }
 
                 is AddShow -> {
@@ -110,8 +114,8 @@ sealed class TVMazeTarget: TargetType {
             }
         }
 
-    override val errorClosure: ((String) -> Any?)?
-        get() = { errorResult ->
+    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
+        get() = { errorResult, _ ->
             val errorType = object : TypeToken<TVMazeError>() {}.type
             Gson().fromJson<TVMazeError>(errorResult, errorType)
         }
