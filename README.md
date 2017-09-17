@@ -149,9 +149,9 @@ It's possible to deal with network responses in the API file, implementing 2 opt
 
 ...
 
-override val successClosure: ((String) -> Any?)?
+override val successClosure: ((String, Map<String, String>?) -> Any?)?
         get() = {
-            result ->
+            result, headers ->
             when(this) {
                 is GetShows -> {
                     val movieType = object : TypeToken<List<MovieContainer>>() {}.type
@@ -177,8 +177,8 @@ override val successClosure: ((String) -> Any?)?
             }
         }
 
-    override val errorClosure: ((String) -> Any?)?
-        get() = { errorResult ->
+    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
+        get() = { errorResult, _ ->
             val errorType = object : TypeToken<TVMazeError>() {}.type
             Gson().fromJson<TVMazeError>(errorResult, errorType)
         }
