@@ -205,7 +205,7 @@ Because computedResult is an Any? type, provider can perform a type safety call 
 ```kotlin
 // Movie and TVMazeError are data classes for TVMaze APIs
 val provider = SpikeProvider<TVMazeTarget>()
-        provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
+        provider.requestTypesafe<Movie, TVMazeError>(GetShowInformation("1", "cast"), {
             response ->
             // Printing success computed result Movie? type
             println(response.computedResult)
