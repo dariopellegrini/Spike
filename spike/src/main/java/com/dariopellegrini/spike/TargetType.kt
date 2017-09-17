@@ -31,4 +31,9 @@ interface TargetType {
     // Task
 
     // Sample data
+    val sampleHeaders: Map<String, String>?
+        get () = null
+
+    val sampleResult: String?
+        get () = null
 }

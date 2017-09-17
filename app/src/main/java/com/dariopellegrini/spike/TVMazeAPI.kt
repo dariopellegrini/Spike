@@ -115,4 +115,20 @@ sealed class TVMazeTarget: TargetType {
             val errorType = object : TypeToken<TVMazeError>() {}.type
             Gson().fromJson<TVMazeError>(errorResult, errorType)
         }
+
+    override val sampleResult: String?
+        get() {
+            return when(this) {
+                is GetShowInformation -> "{\"id\":\"jkhadkjsadhdsajkh\"}"
+                else -> null
+            }
+        }
+
+    override val sampleHeaders: Map<String, String>?
+        get() {
+            return when(this) {
+                is GetShowInformation -> mapOf("token" to "mToken")
+                else -> null
+            }
+        }
 }

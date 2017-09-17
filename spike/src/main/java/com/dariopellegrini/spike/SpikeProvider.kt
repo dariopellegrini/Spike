@@ -20,6 +20,12 @@ class SpikeProvider<in T : TargetType> {
             return
         }
 
+        if (target.sampleResult != null) {
+            val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
+            onSuccess(createSuccessResponse<Any>(response, target))
+            return
+        }
+
         Spike.instance.network?.let { network ->
             network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
@@ -38,6 +44,12 @@ class SpikeProvider<in T : TargetType> {
     fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
         if (Spike.instance.network == null) {
             Log.i("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
+            return
+        }
+
+        if (target.sampleResult != null) {
+            val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
+            onSuccess(createSuccessResponse<S>(response, target))
             return
         }
 
