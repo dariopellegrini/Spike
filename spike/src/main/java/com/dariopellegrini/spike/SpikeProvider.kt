@@ -1,9 +1,14 @@
 package com.dariopellegrini.spike
 
+import android.content.Context
 import android.util.Log
 import com.android.volley.NoConnectionError
+import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.Volley
+import com.dariopellegrini.spike.network.SpikeNetwork
 import com.dariopellegrini.spike.network.SpikeNetworkResponse
+import com.dariopellegrini.spike.network.SpikeRequest
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.response.SpikeErrorResponse
 import com.dariopellegrini.spike.response.SpikeResponse
@@ -13,21 +18,46 @@ import com.dariopellegrini.spike.response.SpikeSuccessResponse
  * Created by dariopellegrini on 25/07/17.
  */
 class SpikeProvider<in T : TargetType> {
+    val queue: RequestQueue?
+    val network: SpikeNetwork?
 
-    fun request(target: T, onSuccess: (SpikeSuccessResponse<Any>)-> Unit, onError: (SpikeErrorResponse<Any>) -> Unit) {
-        if (Spike.instance.network == null) {
-            Log.i("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
-            return
-        }
+    constructor(context: Context) {
+        this.queue = Volley.newRequestQueue(context)
+        this.network = SpikeNetwork(queue)
+    }
 
+    constructor(queue: RequestQueue) {
+        this.queue = queue
+        this.network = SpikeNetwork(queue)
+    }
+
+    constructor() {
+        this.queue = null
+        this.network = null
+    }
+
+    fun request(target: T, onSuccess: (SpikeSuccessResponse<Any>)-> Unit, onError: (SpikeErrorResponse<Any>) -> Unit): SpikeRequest? {
         if (target.sampleResult != null) {
             val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
             onSuccess(createSuccessResponse<Any>(response, target))
-            return
+            return null
         }
 
-        Spike.instance.network?.let { network ->
-            network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
+        network?.let { network ->
+            return network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
+                response, error ->
+
+                // Creating success response
+                if (response != null) {
+                    onSuccess(createSuccessResponse<Any>(response, target))
+                } else if (error != null) {
+                    onError(createErrorResponse<Any>(error, target))
+                }
+            })
+        }
+
+        if (Spike.instance.network != null) {
+            return Spike.instance.network!!.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
 
                 // Creating success response
@@ -38,15 +68,13 @@ class SpikeProvider<in T : TargetType> {
                 }
 
             })
+        } else {
+            Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
+            return null
         }
     }
 
     fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
-        if (Spike.instance.network == null) {
-            Log.i("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
-            return
-        }
-
         if (target.sampleResult != null) {
             val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
             onSuccess(createSuccessResponse<S>(response, target))

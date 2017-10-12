@@ -2,9 +2,22 @@ package com.dariopellegrini.spike
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import com.android.volley.*
 import com.dariopellegrini.spike.model.Movie
 import com.dariopellegrini.spike.response.Spike
+import it.comixtime.comixtime.api.Login
+import it.comixtime.comixtime.api.UserTarget
+import org.json.JSONException
+import com.android.volley.toolbox.HttpHeaderParser
+import com.android.volley.Response.success
+import com.android.volley.Request.Method.POST
+import com.android.volley.toolbox.StringRequest
+import org.json.JSONObject
+import com.android.volley.toolbox.Volley
+import java.io.UnsupportedEncodingException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Spike.instance.configure(this)
+//        Spike.instance.configure(this)
     }
 
     fun doSomething(view: View) {
@@ -38,15 +51,65 @@ class MainActivity : AppCompatActivity() {
             println(error.results.toString())
         })
 */
+        Spike.instance.configure(this)
 
         val provider = SpikeProvider<TVMazeTarget>()
-        provider.requestTypesafe<Movie, TVMazeTarget>(GetShowInformation("1", "cast"), {
+        provider.request(GetShows("gomorra"),onSuccess =  {
             response ->
             println(response.results.toString())
-        }, {
+        }, onError =  {
             error ->
             println(error.results.toString())
         })
+    }
+
+    fun sendRequest() {
+        try {
+            val requestQueue = Volley.newRequestQueue(this)
+            val URL = "http://www.comixtime.it/api/web/api/logins"
+            val jsonBody = JSONObject()
+            jsonBody.put("email", "dario@comixtime.com")
+            jsonBody.put("password", "Comix123")
+            val requestBody = jsonBody.toString()
+
+            val stringRequest = object : StringRequest(Request.Method.POST, URL, object : Response.Listener<String> {
+                override fun onResponse(response: String) {
+                    Log.i("VOLLEY", response)
+                }
+            }, object : Response.ErrorListener {
+                override fun onErrorResponse(error: VolleyError) {
+                    Log.e("VOLLEY", error.toString())
+                }
+            }) {
+                override fun getBodyContentType(): String {
+                    return "application/json; charset=utf-8"
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray? {
+                    try {
+                        return requestBody?.toByteArray(charset("utf-8"))
+                    } catch (uee: UnsupportedEncodingException) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8")
+                        return null
+                    }
+
+                }
+
+                override fun parseNetworkResponse(response: NetworkResponse): Response<String> {
+                    var responseString = ""
+                    if (response != null) {
+                        responseString = response.statusCode.toString()
+                        // can get more details such as response.headers
+                    }
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response))
+                }
+            }
+
+            requestQueue.add(stringRequest)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
 
     }
 }

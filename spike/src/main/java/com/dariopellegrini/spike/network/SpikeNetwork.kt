@@ -20,7 +20,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                     headers: Map<String, String>?,
                     parameters: Map<String, Any>?,
                     multipartEntities: List<SpikeMultipartEntity>?,
-                    completion: (response: SpikeNetworkResponse?, error: VolleyError?) -> Unit) {
+                    completion: (response: SpikeNetworkResponse?, error: VolleyError?) -> Unit): SpikeRequest {
         var currentURL = url
         if (parameters != null && method == SpikeMethod.GET) {
             currentURL = currentURL + "?"
@@ -38,10 +38,11 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                     completion(null, error)
                 })
 
-        request.setRetryPolicy(DefaultRetryPolicy(25000,
+        request.retryPolicy = DefaultRetryPolicy(25000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         requestQueue.add(request)
+        return request
     }
 
     fun getVolleyMethod(method: SpikeMethod): Int {
