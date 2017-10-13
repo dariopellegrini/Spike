@@ -34,10 +34,6 @@ android {
 ```
     
 ## Usage
-Before start init Spike:
-``` kotlin
-Spike.instance.configure(context)
-```
 
 This library lets you to split API request's details inside kotlin files, in order to have more control on what each API does and needs.
 Each file is a sealed class and must implement the interface TargetType. Every detail of each call is selected using a when statement.
@@ -127,10 +123,11 @@ sealed class TVMazeTarget: TargetType {
 // Optional response closures
 ```
 
+## Provider
 After this the only thing to do is init a SpikeProvider and make a request using the desired instance:
 ``` kotlin
-val provider = SpikeProvider<TVMazeTarget>()
-        provider.request(GetShowInformation("1", embed = "cast"), {
+val provider = SpikeProvider<TVMazeTarget>(context)
+        val request = provider.request(GetShowInformation("1", embed = "cast"), {
             response ->
             println(response.results.toString())
         }, {
@@ -139,8 +136,27 @@ val provider = SpikeProvider<TVMazeTarget>()
         })
 ```
 
+There are different constructors for providers:
+1. Context constructor: init a volley queue using the passed context. By this each provider has its queue.
+``` kotlin
+val provider = SpikeProvider<TVMazeTarget>(context)
+```
+
+2. Queue constructor: init a volley queue using a queue passed to it.
+``` kotlin
+val provider = SpikeProvider<TVMazeTarget>(queue)
+```
+
+3. Empty constructor: implementing this requires to configure a Spike singleton instance, which contains a queue that is global and shared between each provider.
+``` kotlin
+Spike.instance.configure(context) // called typically in Application file
+val provider = SpikeProvider<TVMazeTarget>(context)
+```
+
 Here response object contains status code, an enum value describing status code, headers in map, result in String and a computed result (see later).
 Then error contains the same values plus a VolleyError object.
+
+The request is a Volley request and can be canceled as you wish.
 
 ## Closure responses
 It's possible to deal with network responses in the API file, implementing 2 optional closure variables.
