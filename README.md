@@ -150,7 +150,7 @@ val provider = SpikeProvider<TVMazeTarget>(queue)
 3. Empty constructor: implementing this requires to configure a Spike singleton instance, which contains a queue that is global and shared between each provider.
 ``` kotlin
 Spike.instance.configure(context) // called typically in Application file
-val provider = SpikeProvider<TVMazeTarget>(context)
+val provider = SpikeProvider<TVMazeTarget>()
 ```
 
 Here response object contains status code, an enum value describing status code, headers in map, result in String and a computed result (see later).
