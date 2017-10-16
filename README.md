@@ -136,6 +136,11 @@ val provider = SpikeProvider<TVMazeTarget>(context)
         })
 ```
 
+Here response object contains status code, an enum value describing status code, headers in map, result in String and a computed result (see later).
+Then error contains the same values plus a VolleyError object.
+
+The request is a Volley request and can be canceled as you wish.
+
 There are different constructors for providers:
 1. Context constructor: init a volley queue using the passed context. By this each provider has its queue.
 ``` kotlin
@@ -152,11 +157,6 @@ val provider = SpikeProvider<TVMazeTarget>(queue)
 Spike.instance.configure(context) // called typically in Application file
 val provider = SpikeProvider<TVMazeTarget>()
 ```
-
-Here response object contains status code, an enum value describing status code, headers in map, result in String and a computed result (see later).
-Then error contains the same values plus a VolleyError object.
-
-The request is a Volley request and can be canceled as you wish.
 
 ## Closure responses
 It's possible to deal with network responses in the API file, implementing 2 optional closure variables.
