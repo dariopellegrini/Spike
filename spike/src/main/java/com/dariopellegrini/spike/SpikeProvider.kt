@@ -2,6 +2,7 @@ package com.dariopellegrini.spike
 
 import android.content.Context
 import android.util.Log
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.NoConnectionError
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
@@ -11,7 +12,6 @@ import com.dariopellegrini.spike.network.SpikeNetworkResponse
 import com.dariopellegrini.spike.network.SpikeRequest
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.response.SpikeErrorResponse
-import com.dariopellegrini.spike.response.SpikeResponse
 import com.dariopellegrini.spike.response.SpikeSuccessResponse
 
 /**
@@ -20,6 +20,10 @@ import com.dariopellegrini.spike.response.SpikeSuccessResponse
 class SpikeProvider<in T : TargetType> {
     val queue: RequestQueue?
     val network: SpikeNetwork?
+
+    var timeout = DefaultRetryPolicy.DEFAULT_TIMEOUT_MS
+    var maxRetries = DefaultRetryPolicy.DEFAULT_MAX_RETRIES
+    var backoffMultiplier = DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
 
     constructor(context: Context) {
         this.queue = Volley.newRequestQueue(context)
@@ -33,7 +37,7 @@ class SpikeProvider<in T : TargetType> {
 
     constructor() {
         this.queue = null
-        this.network = null
+        this.network = Spike.instance.network
     }
 
     fun request(target: T, onSuccess: (SpikeSuccessResponse<Any>)-> Unit, onError: (SpikeErrorResponse<Any>) -> Unit): SpikeRequest? {
@@ -44,6 +48,7 @@ class SpikeProvider<in T : TargetType> {
         }
 
         network?.let { network ->
+            network.retryPolicy = retryPolicy
             return network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
 
@@ -56,33 +61,21 @@ class SpikeProvider<in T : TargetType> {
             })
         }
 
-        if (Spike.instance.network != null) {
-            return Spike.instance.network!!.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
-                response, error ->
-
-                // Creating success response
-                if (response != null) {
-                    onSuccess(createSuccessResponse<Any>(response, target))
-                } else if (error != null) {
-                    onError(createErrorResponse<Any>(error, target))
-                }
-
-            })
-        } else {
-            Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
-            return null
-        }
+        // If here network has not been initialized
+        Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
+        return null
     }
 
-    fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
+    fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit): SpikeRequest? {
         if (target.sampleResult != null) {
             val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
             onSuccess(createSuccessResponse<S>(response, target))
-            return
+            return null
         }
 
-        Spike.instance.network?.let { network ->
-            network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
+        network?.let { network ->
+            network.retryPolicy = retryPolicy
+            return network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
                 if (response != null) {
                     onSuccess(createSuccessResponse<S>(response, target))
@@ -92,6 +85,10 @@ class SpikeProvider<in T : TargetType> {
 
             })
         }
+
+        // If here network has not been initialized
+        Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
+        return null
     }
 
     private fun <S>createSuccessResponse(response: SpikeNetworkResponse, target: TargetType) : SpikeSuccessResponse<S> {
@@ -139,4 +136,9 @@ class SpikeProvider<in T : TargetType> {
             return errorResponse
         }
     }
+
+    val retryPolicy: DefaultRetryPolicy
+    get() = DefaultRetryPolicy(timeout,
+            maxRetries,
+            backoffMultiplier)
 }

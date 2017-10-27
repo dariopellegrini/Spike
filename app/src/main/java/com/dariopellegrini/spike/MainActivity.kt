@@ -16,6 +16,7 @@ import com.android.volley.Request.Method.POST
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
 import com.android.volley.toolbox.Volley
+import com.dariopellegrini.spike.model.TVMazeError
 import java.io.UnsupportedEncodingException
 
 
@@ -54,11 +55,10 @@ class MainActivity : AppCompatActivity() {
         Spike.instance.configure(this)
 
         val provider = SpikeProvider<TVMazeTarget>()
-        provider.request(GetShows("gomorra"),onSuccess =  {
-            response ->
+        provider.maxRetries = 5
+        val requestTypesafe = provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
             println(response.results.toString())
-        }, onError =  {
-            error ->
+        }, onError = { error ->
             println(error.results.toString())
         })
     }

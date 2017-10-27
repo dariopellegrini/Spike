@@ -11,6 +11,7 @@ import com.dariopellegrini.spike.response.SpikeErrorResponse
  * Created by dariopellegrini on 19/05/2017.
  */
 class SpikeNetwork(val requestQueue: RequestQueue) {
+    var retryPolicy: DefaultRetryPolicy? = null
     init {
         Log.i("SpikeNetwork", "Init Spike network")
     }
@@ -37,10 +38,9 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                 Response.ErrorListener { error ->
                     completion(null, error)
                 })
-
-        request.retryPolicy = DefaultRetryPolicy(25000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        if (retryPolicy != null) {
+            request.retryPolicy = retryPolicy
+        }
         requestQueue.add(request)
         return request
     }
