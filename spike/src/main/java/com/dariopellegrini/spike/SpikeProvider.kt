@@ -7,6 +7,7 @@ import com.android.volley.NoConnectionError
 import com.android.volley.RequestQueue
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.Volley
+import com.dariopellegrini.spike.network.RequestToken
 import com.dariopellegrini.spike.network.SpikeNetwork
 import com.dariopellegrini.spike.network.SpikeNetworkResponse
 import com.dariopellegrini.spike.network.SpikeRequest
@@ -40,7 +41,7 @@ class SpikeProvider<in T : TargetType> {
         this.network = Spike.instance.network
     }
 
-    fun request(target: T, onSuccess: (SpikeSuccessResponse<Any>)-> Unit, onError: (SpikeErrorResponse<Any>) -> Unit): SpikeRequest? {
+    fun request(target: T, onSuccess: (SpikeSuccessResponse<Any>)-> Unit, onError: (SpikeErrorResponse<Any>) -> Unit): RequestToken? {
         if (target.sampleResult != null) {
             val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
             onSuccess(createSuccessResponse<Any>(response, target))
@@ -49,7 +50,7 @@ class SpikeProvider<in T : TargetType> {
 
         network?.let { network ->
             network.retryPolicy = retryPolicy
-            return network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
+            val request = network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
 
                 // Creating success response
@@ -59,6 +60,7 @@ class SpikeProvider<in T : TargetType> {
                     onError(createErrorResponse<Any>(error, target))
                 }
             })
+            return RequestToken(request)
         }
 
         // If here network has not been initialized
@@ -66,7 +68,7 @@ class SpikeProvider<in T : TargetType> {
         return null
     }
 
-    fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit): SpikeRequest? {
+    fun <S, E>requestTypesafe(target: T, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit): RequestToken? {
         if (target.sampleResult != null) {
             val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
             onSuccess(createSuccessResponse<S>(response, target))
@@ -75,7 +77,7 @@ class SpikeProvider<in T : TargetType> {
 
         network?.let { network ->
             network.retryPolicy = retryPolicy
-            return network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
+            val request = network.jsonRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities, {
                 response, error ->
                 if (response != null) {
                     onSuccess(createSuccessResponse<S>(response, target))
@@ -84,6 +86,7 @@ class SpikeProvider<in T : TargetType> {
                 }
 
             })
+            return RequestToken(request)
         }
 
         // If here network has not been initialized

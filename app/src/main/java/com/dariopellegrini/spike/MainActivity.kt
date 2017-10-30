@@ -7,12 +7,8 @@ import android.view.View
 import com.android.volley.*
 import com.dariopellegrini.spike.model.Movie
 import com.dariopellegrini.spike.response.Spike
-import it.comixtime.comixtime.api.Login
-import it.comixtime.comixtime.api.UserTarget
 import org.json.JSONException
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.Response.success
-import com.android.volley.Request.Method.POST
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
 import com.android.volley.toolbox.Volley
@@ -56,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         val provider = SpikeProvider<TVMazeTarget>()
         provider.maxRetries = 5
-        val requestTypesafe = provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
+        provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
             println(response.results.toString())
         }, onError = { error ->
             println(error.results.toString())
