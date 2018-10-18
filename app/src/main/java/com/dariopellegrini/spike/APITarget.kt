@@ -9,8 +9,7 @@ sealed class APITarget : TargetType {
     class AddPhoto(val title: String, val message: String, val image: ByteArray): APITarget()
 
     override val baseURL: String
-        get() = "https://vertirest.api.dariopellegrini.com/"
-//        get() = "http://192.168.0.5:23146/"
+        get() = "http://localhost/"
 
     override val path: String
         get() {
