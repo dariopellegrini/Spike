@@ -1,12 +1,7 @@
 package com.dariopellegrini.spike
 
-import com.dariopellegrini.spike.model.Movie
-import com.dariopellegrini.spike.model.MovieContainer
-import com.dariopellegrini.spike.model.TVMazeError
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 
 /**
@@ -82,43 +77,43 @@ sealed class TVMazeTarget: TargetType {
             }
         }
 
-    override val successClosure: ((String, Map<String, String>?) -> Any?)?
-        get() = {
-            result, headers ->
-            when(this) {
-                is GetShows -> {
-                    val movieType = object : TypeToken<List<MovieContainer>>() {}.type
-                    Gson().fromJson<List<MovieContainer>>(result, movieType)
-                }
+//    override val successClosure: ((String, Map<String, String>?) -> Any?)?
+//        get() = {
+//            result, headers ->
+//            when(this) {
+//                is GetShows -> {
+//                    val movieType = object : TypeToken<List<MovieContainer>>() {}.type
+//                    Gson().fromJson<List<MovieContainer>>(result, movieType)
+//                }
+//
+//                is GetShowInformation -> {
+//                    val movieType = object : TypeToken<Movie>() {}.type
+//                    var movie = Gson().fromJson<Movie>(result, movieType)
+//                    if (headers != null && headers.containsKey("token")) {
+//                        movie.name = headers["token"].toString()
+//                    }
+//                    movie
+//                }
+//
+//                is AddShow -> {
+//                    val movieType = object : TypeToken<Movie>() {}.type
+//                    Gson().fromJson<Movie>(result, movieType)
+//                }
+//
+//                is UpdateShow -> {
+//                    val movieType = object : TypeToken<Movie>() {}.type
+//                    Gson().fromJson<Movie>(result, movieType)
+//                }
+//
+//                is DeleteShow -> null
+//            }
+//        }
 
-                is GetShowInformation -> {
-                    val movieType = object : TypeToken<Movie>() {}.type
-                    var movie = Gson().fromJson<Movie>(result, movieType)
-                    if (headers != null && headers.containsKey("token")) {
-                        movie.name = headers["token"].toString()
-                    }
-                    movie
-                }
-
-                is AddShow -> {
-                    val movieType = object : TypeToken<Movie>() {}.type
-                    Gson().fromJson<Movie>(result, movieType)
-                }
-
-                is UpdateShow -> {
-                    val movieType = object : TypeToken<Movie>() {}.type
-                    Gson().fromJson<Movie>(result, movieType)
-                }
-
-                is DeleteShow -> null
-            }
-        }
-
-    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
-        get() = { errorResult, _ ->
-            val errorType = object : TypeToken<TVMazeError>() {}.type
-            Gson().fromJson<TVMazeError>(errorResult, errorType)
-        }
+//    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
+//        get() = { errorResult, _ ->
+//            val errorType = object : TypeToken<TVMazeError>() {}.type
+//            Gson().fromJson<TVMazeError>(errorResult, errorType)
+//        }
 
 //    override val sampleResult: String?
 //        get() {
