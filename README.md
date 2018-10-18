@@ -21,7 +21,7 @@ dependencies {
     compile 'com.github.dariopellegrini:Spike:v0.9'
 }
 ```
-This library uses apache http libraries that need the following code at the end of the android section in app/build.gradle. Hopefully in the future this won't be needed.
+This library uses apache http libraries that need the following code at the end of the android section in app/build.gradle. From version 0.10 this is not necessary.
 ``` groovy
 android {
     ...
@@ -233,8 +233,6 @@ val provider = SpikeProvider<TVMazeTarget>()
 ```
 
 ## TODO
-- File upload.
-- Alternative way to deal with multipart form data.
 - Testing.
 
 ## Author
