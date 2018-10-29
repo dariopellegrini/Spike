@@ -9,7 +9,7 @@ sealed class APITarget : TargetType {
     class AddPhoto(val title: String, val message: String, val image: ByteArray, val token: String): APITarget()
 
     override val baseURL: String
-        get() = "http://localhost/"
+        get() = "http://localhost"
 
     override val path: String
         get() {
@@ -25,7 +25,7 @@ sealed class APITarget : TargetType {
             return when(this) {
                 is GetPresents    -> mapOf("Content-Type" to "application/json;")
                 is GetPhotos    -> mapOf("Content-Type" to "application/json;", "token" to token)
-                is AddPhoto    -> mapOf("Content-Type" to "multipart/form-data;", "token" to token)
+                is AddPhoto    -> mapOf("token" to token)
             }
         }
 

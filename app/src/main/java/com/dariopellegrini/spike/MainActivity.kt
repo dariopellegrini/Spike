@@ -15,6 +15,16 @@ import com.dariopellegrini.spike.model.Movie
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.model.TVMazeError
 import java.io.ByteArrayOutputStream
+import com.android.volley.VolleyError
+import android.R.attr.data
+import com.android.volley.NetworkResponse
+import com.android.volley.Request
+import com.android.volley.Request.Method.POST
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.dariopellegrini.spike.multipart.SpikeMultipartRequest
+import com.dariopellegrini.spike.network.SpikeNetworkResponse
+import com.dariopellegrini.spike.response.SpikeResponse
 
 
 class MainActivity : AppCompatActivity() {

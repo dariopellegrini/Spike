@@ -73,7 +73,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
             currentURL = currentURL.removeSuffix("&")
         }
 
-        val multipartRequest = object : SpikeMultipartRequest(getVolleyMethod(method), url, headers ?: mapOf(), Response.Listener<SpikeNetworkResponse> { response ->
+        val multipartRequest = object : SpikeMultipartRequest(getVolleyMethod(method), url, Response.Listener<SpikeNetworkResponse> { response ->
             completion(response, null)
             // parse success output
         }, Response.ErrorListener {
@@ -100,6 +100,29 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                 }
                 return params
             }
+
+            override fun getHeaders(): Map<String, String> {
+                // Content-type is selected automatically. Removing every content type header
+                val currentHeaders = (if (headers != null) headers else super.getHeaders()).toMutableMap()
+                if (currentHeaders.containsKey("Content-type")) {
+                    currentHeaders.remove("Content-type")
+                }
+                if (currentHeaders.containsKey("content-type")) {
+                    currentHeaders.remove("content-type")
+                }
+                if (currentHeaders.containsKey("Content-Type")) {
+                    currentHeaders.remove("Content-Type")
+                }
+                if (currentHeaders.containsKey("CONTENT-TYPE")) {
+                    currentHeaders.remove("CONTENT-TYPE")
+                }
+                return currentHeaders
+//                return mapOf("token" to "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1YTk5MmRlMDQ0NDgxOTdkOGFhMTY3NmEiLCJ1c2VybmFtZSI6ImluZm9AZGFyaW9wZWxsZWdyaW5pLmNvbSIsInBhc3N3b3JkIjoiMTExRkNBMkQ1MkRFRjRDMzNGNEQ4RjFCRTdFNzREMTRCNjVEMzY1RTVEREI5MTYxMEMzQzBEQkVDQzE5MjA3M0IwQjBERjI4MjEzRTM4MjhDQzAzMjFGNjI4NkJBRjk0NDQ5QTRGODgwMzIwM0JFMzI5MzU5NUY0RDY3RkY3RTIiLCJpYXQiOjE1NDA4MDIzMDF9.7Z8Yrpq2J-NXYMl6-777LjQmn833cZAek8q9Ak0P-Hk")
+            }
+
+//            override fun getHeaders(): Map<String, String> {
+//                return headers ?: mapOf()
+//            }
         }
 
 

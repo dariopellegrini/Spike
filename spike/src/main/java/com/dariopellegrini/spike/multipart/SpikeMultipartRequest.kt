@@ -52,9 +52,9 @@ open class SpikeMultipartRequest: Request<SpikeNetworkResponse> {
      * @param listener      on success achieved 200 code from jsonRequest
      * @param errorListener on error http or library timeout
      */
-    constructor(url: String, headers: Map<String, String>,
+    constructor(method:Int, url: String, headers: Map<String, String>,
                 listener: Response.Listener<SpikeNetworkResponse>,
-                errorListener: Response.ErrorListener) : super(Request.Method.POST, url, errorListener) {
+                errorListener: Response.ErrorListener) : super(method, url, errorListener) {
         this.mListener = listener
         this.mErrorListener = errorListener
         this.mHeaders = headers
@@ -68,17 +68,16 @@ open class SpikeMultipartRequest: Request<SpikeNetworkResponse> {
      * @param listener      on success event handler
      * @param errorListener on error event handler
      */
-    constructor(method: Int, url: String, headers: Map<String, String>,
+    constructor(method: Int, url: String,
                 listener: Response.Listener<SpikeNetworkResponse>,
                 errorListener: Response.ErrorListener) : super(method, url, errorListener) {
         this.mListener = listener
         this.mErrorListener = errorListener
-        this.mHeaders = headers
     }
 
     @Throws(AuthFailureError::class)
     override fun getHeaders(): Map<String, String> {
-        return mHeaders ?: super.getHeaders()
+        return if (mHeaders != null) this.mHeaders!! else super.getHeaders()
     }
 
     override fun getBodyContentType(): String {
