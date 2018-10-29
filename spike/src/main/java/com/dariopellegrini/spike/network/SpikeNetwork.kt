@@ -73,7 +73,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
             currentURL = currentURL.removeSuffix("&")
         }
 
-        val multipartRequest = object : SpikeMultipartRequest(getVolleyMethod(method), url, Response.Listener<SpikeNetworkResponse> { response ->
+        val multipartRequest = object : SpikeMultipartRequest(getVolleyMethod(method), url, headers ?: mapOf(), Response.Listener<SpikeNetworkResponse> { response ->
             completion(response, null)
             // parse success output
         }, Response.ErrorListener {

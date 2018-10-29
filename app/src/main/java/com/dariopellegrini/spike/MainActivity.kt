@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("Get Shows", "Error")
             println(error.results.toString())
         })
+
     }
 
     fun doSomething(view: View) {
@@ -72,10 +73,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getPhotos() {
+        val provider = SpikeProvider<APITarget>()
+        provider.request(APITarget.GetPhotos("token"), {
+            result ->
+            print(result)
+            Log.i("Get photo", "Success")
+        }, {
+            error ->
+            print(error)
+            Log.i("Get photo", "Error")
+        })
+    }
+
     private fun load(byteArray: ByteArray) {
         Log.i("Add photo", "Uploading")
         val provider = SpikeProvider<APITarget>()
-        provider.request(APITarget.AddPhoto("Hello", "Hello", byteArray), {
+        provider.request(APITarget.AddPhoto("Hello", "Hello", byteArray, "token"), {
             result ->
             print(result)
             Log.i("Add photo", "Success")

@@ -5,8 +5,8 @@ import com.dariopellegrini.spike.network.SpikeMethod
 
 sealed class APITarget : TargetType {
     object GetPresents: APITarget()
-    object GetPhotos: APITarget()
-    class AddPhoto(val title: String, val message: String, val image: ByteArray): APITarget()
+    class GetPhotos(val token: String): APITarget()
+    class AddPhoto(val title: String, val message: String, val image: ByteArray, val token: String): APITarget()
 
     override val baseURL: String
         get() = "http://localhost/"
@@ -24,8 +24,8 @@ sealed class APITarget : TargetType {
         get() {
             return when(this) {
                 is GetPresents    -> mapOf("Content-Type" to "application/json;")
-                is GetPhotos    -> mapOf("Content-Type" to "application/json;")
-                is AddPhoto    -> mapOf("Content-Type" to "multipart/form-data;")
+                is GetPhotos    -> mapOf("Content-Type" to "application/json;", "token" to token)
+                is AddPhoto    -> mapOf("Content-Type" to "multipart/form-data;", "token" to token)
             }
         }
 

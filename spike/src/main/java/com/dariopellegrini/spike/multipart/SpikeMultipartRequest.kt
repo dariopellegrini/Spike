@@ -68,11 +68,12 @@ open class SpikeMultipartRequest: Request<SpikeNetworkResponse> {
      * @param listener      on success event handler
      * @param errorListener on error event handler
      */
-    constructor(method: Int, url: String,
+    constructor(method: Int, url: String, headers: Map<String, String>,
                 listener: Response.Listener<SpikeNetworkResponse>,
                 errorListener: Response.ErrorListener) : super(method, url, errorListener) {
         this.mListener = listener
         this.mErrorListener = errorListener
+        this.mHeaders = headers
     }
 
     @Throws(AuthFailureError::class)
