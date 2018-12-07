@@ -102,18 +102,19 @@ class SpikeProvider<in T : TargetType> {
         return null
     }
 
-    suspend fun <S, E>suspendingRequest(target: T): SpikeSuccessResponse<S> {
+    suspend fun <S>suspendingRequest(target: T): SpikeSuccessResponse<S> {
         return suspendCancellableCoroutine { continuation ->
             if (target.sampleResult != null) {
                 val response = SpikeNetworkResponse(200, target.sampleHeaders, target.sampleResult)
-                continuation.resume(createSuccessResponse<S>(response, target))
+                continuation.resume(createSuccessResponse(response, target))
             }
 
             network?.let { network ->
                 network.retryPolicy = retryPolicy
-                network.networkRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities) { response, error ->
+                network.networkRequest(target.baseURL + target.path, target.method, target.headers, target.parameters, target.multipartEntities) {
+                    response, error ->
                     if (response != null) {
-                        continuation.resume(createSuccessResponse<S>(response, target))
+                        continuation.resume(createSuccessResponse(response, target))
                     } else if (error != null) {
                         continuation.resumeWithException(SpikeProviderException(this, target, error))
                     }

@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = provider.suspendingRequest<Movie, TVMazeError>(GetShows("gomorra"))
+                val response = provider.suspendingRequest<Movie>(GetShows("gomorra"))
                 println(response.results.toString())
             } catch (e: SpikeProviderException) {
                 val err = e.errorResponse<String>()
