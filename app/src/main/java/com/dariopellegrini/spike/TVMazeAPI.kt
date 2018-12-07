@@ -109,11 +109,10 @@ sealed class TVMazeTarget: TargetType {
 //            }
 //        }
 
-//    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
-//        get() = { errorResult, _ ->
-//            val errorType = object : TypeToken<TVMazeError>() {}.type
-//            Gson().fromJson<TVMazeError>(errorResult, errorType)
-//        }
+    override val errorClosure: ((String, Map<String, String>?) -> Any?)?
+        get() = { errorResult, _ ->
+            "Error"
+        }
 
 //    override val sampleResult: String?
 //        get() {

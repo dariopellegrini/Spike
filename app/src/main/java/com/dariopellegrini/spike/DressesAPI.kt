@@ -1,6 +1,5 @@
 package com.dariopellegrini.spike
 
-import com.android.volley.Request
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.response.SpikeSuccessResponse

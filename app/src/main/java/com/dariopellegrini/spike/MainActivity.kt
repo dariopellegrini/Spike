@@ -15,16 +15,10 @@ import com.dariopellegrini.spike.model.Movie
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.model.TVMazeError
 import java.io.ByteArrayOutputStream
-import com.android.volley.VolleyError
-import android.R.attr.data
-import com.android.volley.NetworkResponse
-import com.android.volley.Request
-import com.android.volley.Request.Method.POST
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
-import com.dariopellegrini.spike.multipart.SpikeMultipartRequest
-import com.dariopellegrini.spike.network.SpikeNetworkResponse
-import com.dariopellegrini.spike.response.SpikeResponse
+import com.dariopellegrini.spike.SpikeProvider.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,14 +31,24 @@ class MainActivity : AppCompatActivity() {
 
         val provider = SpikeProvider<TVMazeTarget>()
         provider.maxRetries = 5
-        provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
-            Log.i("Get Shows", "Success")
-            println(response.results.toString())
-        }, onError = { error ->
-            Log.i("Get Shows", "Error")
-            println(error.results.toString())
-        })
+//        provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
+//            Log.i("Get Shows", "Success")
+//            println(response.results.toString())
+//        }, onError = { error ->
+//            Log.i("Get Shows", "Error")
+//            println(error.results.toString())
+//        })
 
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = provider.suspendingRequest<Movie, TVMazeError>(GetShows("gomorra"))
+                println(response.results.toString())
+            } catch (e: SpikeProviderException) {
+                val err = e.errorResponse<String>()
+                println(e.statusCode)
+            }
+        }
     }
 
     fun doSomething(view: View) {
