@@ -232,6 +232,32 @@ val provider = SpikeProvider<TVMazeTarget>()
         })
 ```
 
+## Coroutines support
+Starting by version 0.12 it's possible to use suspending functions to perform provider requests.
+```kotlin
+CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = provider.suspendingRequest<Movie>(GetShows("gomorra"))
+                println("${response.results}")
+            } catch (e: SpikeProviderException) {
+                // Exception in case of error, like server error or connection error
+
+                // Status code
+                val statusCode = e.statusCode
+
+                // Function to have an error response containing response details.
+                // Generics used to have a typesafe computed result call
+                val errorResponse = e.errorResponse<TVMazeError>()
+                val computedError = errorResponse?.computedResult // TVMazeError
+                println("""
+                    $statusCode
+                    $errorResponse
+                    $computedError
+                """.trimIndent())
+            }
+        }
+```
+
 ## TODO
 - Testing.
 
