@@ -178,7 +178,7 @@ class SpikeProvider<in T : TargetType> {
     class SpikeProviderException(private val provider: SpikeProvider<*>,
                                  private val target: TargetType,
                                  private val volleyError: VolleyError): Exception() {
-        fun <E>errorResponse(): SpikeErrorResponse<E>? {
+        fun <E>errorResponse(): SpikeErrorResponse<E> {
             return provider.createErrorResponse(volleyError, target)
         }
 

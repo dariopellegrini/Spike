@@ -43,10 +43,22 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val response = provider.suspendingRequest<Movie>(GetShows("gomorra"))
-                println(response.results.toString())
+                println("${response.results}")
             } catch (e: SpikeProviderException) {
-                val err = e.errorResponse<String>()
-                println(e.statusCode)
+                // Exception in case of error, like server error or connection error
+
+                // Status code
+                val statusCode = e.statusCode
+
+                // Function to have an error response containing response details.
+                // Generics used to have a typesafe computed result call
+                val errorResponse = e.errorResponse<String>()
+                val computedError = errorResponse.computedResult
+                Log.e("Error", """"
+                    $statusCode
+                    $errorResponse
+                    $computedError
+                """.trimIndent())
             }
         }
     }
