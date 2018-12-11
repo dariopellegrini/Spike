@@ -119,6 +119,9 @@ class SpikeProvider<in T : TargetType> {
                         continuation.resumeWithException(SpikeProviderException(this, target, error))
                     }
                 }
+            } ?: run {
+                // If here network has not been initialized
+                Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
             }
         }
     }
