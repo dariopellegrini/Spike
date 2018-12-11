@@ -284,23 +284,20 @@ This returns a suspending function to use within a coroutine.
 ```kotlin
 CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = provider.suspendingRequest<Movie>(GetShows("gomorra"))
-                println("${response.results}")
-            } catch (e: SpikeProviderException) {
-                // Exception in case of error, like server error or connection error
-
-                // Status code
-                val statusCode = e.statusCode
-
-                // Function to have an error response containing response details.
-                // Generics used to have a typesafe computed result call
-                val errorResponse = e.errorResponse<String>()
-                val computedError = errorResponse.computedResult
-                Log.e("Error", """"
-                    $statusCode
-                    $errorResponse
-                    $computedError
-                """.trimIndent())
+                val response = SpikeProvider<TargetType>()
+                        .buildRequest<JSONObject> {
+                            baseURL = "http://localhost/"
+                            path = "tales"
+                            method = SpikeMethod.POST
+                            headers = mapOf("Content-Type" to "application/json")
+                            parameters = mapOf(
+                                    "title" to " My tale",
+                                    "content" to "This is the tale content",
+                                    "author" to "John")
+                        }
+                Log.i("Success", "${response.computedResult}")
+            } catch(e: Exception) {
+                Log.e("Error", "$e")
             }
         }
 ```
