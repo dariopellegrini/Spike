@@ -258,6 +258,53 @@ CoroutineScope(Dispatchers.Main).launch {
         }
 ```
 
+## Builder
+Version 0.14 supports builders for creating targets and requests.
+
+### Target
+```kotlin
+val target = buildTarget {
+            baseURL = "http://localhost"
+            path = "endpoint"
+            method = SpikeMethod.GET
+            headers = mapOf("Content-Type" to "application/json")
+            successClosure = {
+                result, headers ->
+                JSONObject(result)
+            }
+            errorClosure = {
+                errorResult, headers ->
+                JSONObject(errorResult)
+            }
+        }
+```
+
+### Request
+This returns a suspending function to use within a coroutine.
+```kotlin
+CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = provider.suspendingRequest<Movie>(GetShows("gomorra"))
+                println("${response.results}")
+            } catch (e: SpikeProviderException) {
+                // Exception in case of error, like server error or connection error
+
+                // Status code
+                val statusCode = e.statusCode
+
+                // Function to have an error response containing response details.
+                // Generics used to have a typesafe computed result call
+                val errorResponse = e.errorResponse<String>()
+                val computedError = errorResponse.computedResult
+                Log.e("Error", """"
+                    $statusCode
+                    $errorResponse
+                    $computedError
+                """.trimIndent())
+            }
+        }
+```
+
 ## TODO
 - Testing.
 
