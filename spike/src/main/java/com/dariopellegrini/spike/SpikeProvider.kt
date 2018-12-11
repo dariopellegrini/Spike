@@ -120,9 +120,6 @@ class SpikeProvider<in T : TargetType> {
                     }
                 }
             }
-
-            // If here network has not been initialized
-            Log.e("Spike", "Spike non initiated. Run: Spike.instance.configure(context)")
         }
     }
 

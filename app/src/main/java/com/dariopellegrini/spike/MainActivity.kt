@@ -13,12 +13,13 @@ import android.util.Log
 import android.view.View
 import com.dariopellegrini.spike.model.Movie
 import com.dariopellegrini.spike.response.Spike
-import com.dariopellegrini.spike.model.TVMazeError
 import java.io.ByteArrayOutputStream
 import com.dariopellegrini.spike.SpikeProvider.*
+import com.dariopellegrini.spike.network.SpikeMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val provider = SpikeProvider<TVMazeTarget>()
         provider.maxRetries = 5
+
 //        provider.requestTypesafe<Movie, TVMazeError>(GetShows("gomorra"), onSuccess = { response ->
 //            Log.i("Get Shows", "Success")
 //            println(response.results.toString())
@@ -59,6 +61,44 @@ class MainActivity : AppCompatActivity() {
                     $errorResponse
                     $computedError
                 """.trimIndent())
+            }
+        }
+
+        buildTarget {
+            baseURL = "http://localhost"
+            path = "endpoint"
+            method = SpikeMethod.GET
+            headers = mapOf("Content-Type" to "application/json")
+            successClosure = {
+                result, headers ->
+                JSONObject(result)
+            }
+            errorClosure = {
+                errorResult, headers ->
+                JSONObject(errorResult)
+            }
+        }
+
+
+
+
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val response = SpikeProvider<TargetType>()
+                        .buildRequest<JSONObject> {
+                            baseURL = "http://localhost/"
+                            path = "tales"
+                            method = SpikeMethod.POST
+                            headers = mapOf("Content-Type" to "application/json")
+                            parameters = mapOf(
+                                    "title" to " My tale",
+                                    "content" to "This is the tale content",
+                                    "author" to "John")
+                        }
+                Log.i("Spike", "${response.computedResult}")
+            } catch(e: Exception) {
+                Log.e("Spike", "$e")
             }
         }
     }
