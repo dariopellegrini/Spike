@@ -5,7 +5,7 @@ A network abstraction layer over Volley, written in Kotlin and inspired by [Moya
 Download repository and try the app.
 
 ## Installation
-Add edit your build.gradle file
+Add in your build.gradle file
 ``` groovy
 allprojects {
     repositories {
