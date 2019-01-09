@@ -244,8 +244,7 @@ CoroutineScope(Dispatchers.Main).launch {
 
                 // Status code
                 val statusCode = e.statusCode
-
-                // Function to have an error response containing response details.
+                
                 // Generics used to have a typesafe computed result call
                 val errorResponse = e.errorResponse<TVMazeError>()
                 val computedError = errorResponse?.computedResult // TVMazeError
@@ -280,7 +279,7 @@ val target = buildTarget {
 ```
 
 ### Request
-This returns a suspending function to use within a coroutine.
+Here is returned a suspending function to use within a coroutine.
 ```kotlin
 CoroutineScope(Dispatchers.Main).launch {
             try {
