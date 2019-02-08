@@ -2,6 +2,7 @@ package com.dariopellegrini.spike
 
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
+import com.dariopellegrini.spike.response.SpikeErrorResponse
 import com.dariopellegrini.spike.response.SpikeSuccessResponse
 
 /**
@@ -43,8 +44,41 @@ fun buildTarget(closure: TargetBuilder.() -> Unit): TargetType {
     return targetBuilder.target
 }
 
+// SpikeProvider extensions
 suspend fun <T>SpikeProvider<TargetType>.buildRequest(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<T> {
     val targetBuilder = TargetBuilder()
     targetBuilder.closure()
     return this.suspendingRequest<T>(targetBuilder.target)
+}
+
+suspend fun SpikeProvider<TargetType>.buildAnyRequest(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<Any> {
+    val targetBuilder = TargetBuilder()
+    targetBuilder.closure()
+    return this.suspendingRequest(targetBuilder.target)
+}
+
+// Suspendable functions with global SpikeProvider
+suspend fun requestAny(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<Any> {
+    val provider = SpikeProvider<TargetType>()
+    return provider.buildAnyRequest(closure)
+}
+
+suspend fun <T>request(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<T> {
+    val provider = SpikeProvider<TargetType>()
+    return provider.buildRequest(closure)
+}
+
+// Functions with callback with global SpikeProvider
+fun requestAny(closure: TargetBuilder.() -> Unit, onSuccess: (SpikeSuccessResponse<Any>) -> Unit, onError: (SpikeErrorResponse<Any>) -> Unit) {
+    val targetBuilder = TargetBuilder()
+    targetBuilder.closure()
+    val provider = SpikeProvider<TargetType>()
+    provider.request(targetBuilder.target, onSuccess, onError)
+}
+
+fun <S, E>request(closure: TargetBuilder.() -> Unit, onSuccess: (SpikeSuccessResponse<S>) -> Unit, onError: (SpikeErrorResponse<E>) -> Unit) {
+    val targetBuilder = TargetBuilder()
+    targetBuilder.closure()
+    val provider = SpikeProvider<TargetType>()
+    provider.requestTypesafe<S, E>(targetBuilder.target, onSuccess, onError)
 }
