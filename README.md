@@ -301,6 +301,75 @@ CoroutineScope(Dispatchers.Main).launch {
         }
 ```
 
+### Other requests
+In order to make requests shorter starting from version 0.16 other types of requests which use global providers are available, with and without coroutines.
+```kotlin
+CoroutineScope(Dispatchers.Main).launch {
+
+            // Function with global provider and typesafe computed result
+            try {
+                val response = request<JSONObject> {
+                    baseURL = "https://api.tvmaze.com/"
+                    path = "shows"
+                    method = SpikeMethod.GET
+                    headers = mapOf("Content-Type" to "application/json")
+                    successClosure = { response, header ->
+                        JSONObject()
+                    }
+                }
+                Log.i("Spike", "${response.computedResult}")
+            } catch(e: SpikeProviderException) {
+                Log.e("Spike", "$e")
+            }
+
+            // Function with global request
+            try {
+                val response = requestAny {
+                    baseURL = "https://api.tvmaze.com/"
+                    path = "shows"
+                    method = SpikeMethod.GET
+                    headers = mapOf("Content-Type" to "application/json")
+                }
+                Log.i("Spike", "${response}")
+            } catch(e: SpikeProviderException) {
+                Log.e("Spike", "$e")
+            }
+        }
+
+        // Callbacks
+
+        // Function with global provider and typesafe computed result
+        request<JSONObject, JSONObject>({
+            baseURL = "https://api.tvmaze.com/"
+            path = "shows"
+            method = SpikeMethod.GET
+            headers = mapOf("Content-Type" to "application/json")
+            successClosure = { response, header ->
+                JSONObject()
+            }
+            errorClosure = { response, header ->
+                JSONObject()
+            }
+        }, onSuccess =  { response ->
+            Log.i("Spike", "${response.computedResult}")
+
+        }, onError =  { error ->
+            Log.e("Spike", "${error.computedResult}")
+        })
+
+        // Function with global provider
+        requestAny({
+            baseURL = "https://api.tvmaze.com/"
+            path = "shows"
+            method = SpikeMethod.GET
+            headers = mapOf("Content-Type" to "application/json")
+        }, onSuccess =  { response ->
+            Log.i("Spike", "${response}")
+        }, onError =  { error ->
+            Log.e("Spike", "$error")
+        })
+```
+
 ## TODO
 - Testing.
 
