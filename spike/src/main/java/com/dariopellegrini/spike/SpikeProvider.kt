@@ -183,6 +183,6 @@ class SpikeProvider<in T : TargetType> {
         }
 
         val statusCode: Int
-            get() = if (volleyError.networkResponse != null) -1001 else volleyError.networkResponse.statusCode
+            get() = if (volleyError.networkResponse == null) -1001 else volleyError.networkResponse.statusCode
     }
 }
