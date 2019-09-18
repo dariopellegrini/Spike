@@ -1,5 +1,6 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spikeapp
 
+import com.dariopellegrini.spike.TargetType
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
 
@@ -26,54 +27,54 @@ sealed class TVMazeTarget: TargetType {
     override val path: String
         get() {
             return when(this) {
-                is GetShows             -> "search/shows"
-                is GetShowInformation   -> "shows/" + showID
-                is AddShow              -> "shows/"
-                is UpdateShow           -> "shows/" + showID
-                is DeleteShow           -> "shows/" + showID
+                is GetShows -> "search/shows"
+                is GetShowInformation -> "shows/" + showID
+                is AddShow -> "shows/"
+                is UpdateShow -> "shows/" + showID
+                is DeleteShow -> "shows/" + showID
             }
         }
 
     override val method: SpikeMethod
         get() {
             return when(this) {
-                is GetShows             -> SpikeMethod.GET
-                is GetShowInformation   -> SpikeMethod.GET
-                is AddShow              -> SpikeMethod.POST
-                is UpdateShow           -> SpikeMethod.PATCH
-                is DeleteShow           -> SpikeMethod.DELETE
+                is GetShows -> SpikeMethod.GET
+                is GetShowInformation -> SpikeMethod.GET
+                is AddShow -> SpikeMethod.POST
+                is UpdateShow -> SpikeMethod.PATCH
+                is DeleteShow -> SpikeMethod.DELETE
             }
         }
     override val headers: Map<String, String>?
         get() {
             return when(this) {
-                is GetShows             -> mapOf("Content-Type" to "application/json")
-                is GetShowInformation   -> mapOf("Content-Type" to "application/json")
-                is AddShow              -> mapOf("Content-Type" to "application/json", "user_token" to token)
-                is UpdateShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
-                is DeleteShow           -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is GetShows -> mapOf("Content-Type" to "application/json")
+                is GetShowInformation -> mapOf("Content-Type" to "application/json")
+                is AddShow -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is UpdateShow -> mapOf("Content-Type" to "application/json", "user_token" to token)
+                is DeleteShow -> mapOf("Content-Type" to "application/json", "user_token" to token)
             }
         }
 
     override val multipartEntities: List<SpikeMultipartEntity>?
         get() {
             return when(this) {
-                is GetShows             -> null
-                is GetShowInformation   -> null
-                is AddShow              -> listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
-                is UpdateShow           -> null
-                is DeleteShow           -> null
+                is GetShows -> null
+                is GetShowInformation -> null
+                is AddShow -> listOf(SpikeMultipartEntity("image/jpeg", coverImage, "coverImage", "coverImage.jpg"))
+                is UpdateShow -> null
+                is DeleteShow -> null
             }
         }
 
     override val parameters: Map<String, Any>?
         get() {
             return when(this) {
-                is GetShows             -> mapOf("q" to query)
-                is GetShowInformation   -> mapOf("embed" to embed)
-                is AddShow              -> mapOf("name" to name)
-                is UpdateShow           -> mapOf("name" to name)
-                is DeleteShow           -> null
+                is GetShows -> mapOf("q" to query)
+                is GetShowInformation -> mapOf("embed" to embed)
+                is AddShow -> mapOf("name" to name)
+                is UpdateShow -> mapOf("name" to name)
+                is DeleteShow -> null
             }
         }
 

@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spikeapp
 
 import org.junit.Test
 

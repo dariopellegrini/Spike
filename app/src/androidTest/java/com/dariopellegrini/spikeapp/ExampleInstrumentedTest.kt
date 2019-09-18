@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spikeapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

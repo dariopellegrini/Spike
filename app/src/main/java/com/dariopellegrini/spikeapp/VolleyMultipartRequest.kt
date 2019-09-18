@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spikeapp
 
 import com.android.volley.AuthFailureError
 import com.android.volley.NetworkResponse
@@ -13,8 +13,6 @@ import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
 import java.io.IOException
 import java.io.UnsupportedEncodingException
-import com.dariopellegrini.spike.VolleyMultipartRequest.DataPart
-
 
 
 /**

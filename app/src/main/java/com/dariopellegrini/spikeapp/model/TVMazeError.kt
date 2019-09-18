@@ -1,4 +1,4 @@
-package com.dariopellegrini.spike.model
+package com.dariopellegrini.spikeapp.model
 
 /**
  * Created by dariopellegrini on 28/07/17.

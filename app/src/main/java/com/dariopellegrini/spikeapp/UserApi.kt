@@ -1,4 +1,4 @@
-package it.comixtime.comixtime.api
+package com.dariopellegrini.spikeapp
 
 import com.dariopellegrini.spike.TargetType
 import com.dariopellegrini.spike.network.SpikeMethod
@@ -17,8 +17,8 @@ sealed class UserTarget: TargetType {
     override val path: String
         get() {
             return when(this) {
-                is SignUp   -> "signUp"
-                is Login    -> "logins"
+                is SignUp -> "signUp"
+                is Login -> "logins"
             }
         }
 
@@ -29,16 +29,16 @@ sealed class UserTarget: TargetType {
     override val method: SpikeMethod
         get() {
             return when(this) {
-                is SignUp   -> SpikeMethod.POST
-                is Login    -> SpikeMethod.POST
+                is SignUp -> SpikeMethod.POST
+                is Login -> SpikeMethod.POST
             }
         }
 
     override val parameters: Map<String, Any>?
         get() {
             return when(this) {
-                is SignUp   -> mapOf("username" to username, "password" to password, "nickname" to nickname, "profileImage" to profileImage)
-                is Login    -> mapOf("email" to username, "password" to password)
+                is SignUp -> mapOf("username" to username, "password" to password, "nickname" to nickname, "profileImage" to profileImage)
+                is Login -> mapOf("email" to username, "password" to password)
             }
         }
 
