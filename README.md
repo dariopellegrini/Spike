@@ -1,7 +1,7 @@
 # Spike
 
-[![](https://jitpack.io/v/dariopellegrini/Spike.svg)](https://jitpack.io/#dariopellegrini/Spike)
 ![](https://img.shields.io/static/v1.svg?url=<google.com>&logo=android&label=SDK&color=green&style=popout&message=29) 
+![](https://jitpack.io/v/dariopellegrini/Spike.svg)](https://jitpack.io/#dariopellegrini/Spike)
 
 A network abstraction layer over Volley, written in Kotlin and inspired by [Moya for Swift](https://github.com/Moya/Moya)
 
