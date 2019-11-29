@@ -187,7 +187,8 @@ open class SpikeMultipartRequest: Request<SpikeNetworkResponse> {
         dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"$parameterName\"$lineEnd")
         //dataOutputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
         dataOutputStream.writeBytes(lineEnd)
-        dataOutputStream.writeBytes(parameterValue + lineEnd)
+        dataOutputStream.write(parameterValue.toByteArray())
+        dataOutputStream.writeBytes(lineEnd)
     }
 
     /**
