@@ -1,7 +1,5 @@
-package com.dariopellegrini.spike.builder
+package com.dariopellegrini.spike
 
-import com.dariopellegrini.spike.SpikeProvider
-import com.dariopellegrini.spike.TargetType
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.response.SpikeErrorResponse

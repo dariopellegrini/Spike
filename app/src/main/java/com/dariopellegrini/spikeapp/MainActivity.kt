@@ -7,11 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.SpikeProvider.*
-import com.dariopellegrini.spike.builder.request
-import com.dariopellegrini.spike.builder.requestAny
+import com.dariopellegrini.spike.request
+import com.dariopellegrini.spike.requestAny
 import com.dariopellegrini.spike.mapping.mapping
 import com.dariopellegrini.spike.mapping.suspend
-import com.dariopellegrini.spike.mapping.suspending
 import com.dariopellegrini.spikeapp.model.Movie
 import com.dariopellegrini.spikeapp.model.TVMazeError
 import kotlinx.coroutines.CoroutineScope
