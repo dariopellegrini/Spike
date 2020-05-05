@@ -1,5 +1,7 @@
-package com.dariopellegrini.spike
+package com.dariopellegrini.spike.builder
 
+import com.dariopellegrini.spike.SpikeProvider
+import com.dariopellegrini.spike.TargetType
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.response.SpikeErrorResponse
@@ -45,7 +47,7 @@ fun buildTarget(closure: TargetBuilder.() -> Unit): TargetType {
 }
 
 // SpikeProvider extensions
-suspend fun <T>SpikeProvider<TargetType>.buildRequest(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<T> {
+suspend fun <T> SpikeProvider<TargetType>.buildRequest(closure: TargetBuilder.() -> Unit): SpikeSuccessResponse<T> {
     val targetBuilder = TargetBuilder()
     targetBuilder.closure()
     return this.suspendingRequest<T>(targetBuilder.target)

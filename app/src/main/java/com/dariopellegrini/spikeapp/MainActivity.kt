@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.dariopellegrini.spike.*
 import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.SpikeProvider.*
+import com.dariopellegrini.spike.builder.request
+import com.dariopellegrini.spike.builder.requestAny
+import com.dariopellegrini.spike.mapping.mapping
+import com.dariopellegrini.spike.mapping.mappingThrowable
+import com.dariopellegrini.spikeapp.model.Movie
+import com.dariopellegrini.spikeapp.model.TVMazeError
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,14 +86,17 @@ class MainActivity : AppCompatActivity() {
 
             // Function with global request
             try {
-                val response = requestAny {
+                val response = request<List<Movie>> {
                     baseURL = "https://api.tvmaze.com/"
                     path = "shows"
                     method = SpikeMethod.GET
                     headers = mapOf("Content-Type" to "application/json")
-                }
+                }.mappingThrowable()
                 Log.i("Spike", "${response}")
             } catch(e: SpikeProviderException) {
+                val error = e.errorResponse<TVMazeError>().mapping()
+                Log.e("Spike", "$e")
+            } catch (e: Exception) {
                 Log.e("Spike", "$e")
             }
         }
