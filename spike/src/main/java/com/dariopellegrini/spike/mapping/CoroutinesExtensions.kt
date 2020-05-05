@@ -12,7 +12,7 @@ class ErrorWrapper<T>(val base: T)
 
 val <T>SpikeSuccessResponse<T>.suspend: SuccessWrapper<SpikeSuccessResponse<T>>
     get() = SuccessWrapper(this)
-val <T>SpikeErrorResponse<T>.suspending: ErrorWrapper<SpikeErrorResponse<T>>
+val <T>SpikeErrorResponse<T>.suspend: ErrorWrapper<SpikeErrorResponse<T>>
     get() = ErrorWrapper(this)
 
 suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mapping(): T? = withContext(Dispatchers.IO) {
