@@ -15,7 +15,7 @@ val <T>SpikeSuccessResponse<T>.suspend: SuccessWrapper<SpikeSuccessResponse<T>>
 val <T>SpikeErrorResponse<T>.suspend: ErrorWrapper<SpikeErrorResponse<T>>
     get() = ErrorWrapper(this)
 
-suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mapping(): T? = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mapping(): T? = withContext(Dispatchers.Default) {
     this@mapping.base.results?.let {
         Gson().fromJsonOrNull<T>(it)
     } ?: run {
@@ -23,7 +23,7 @@ suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mapping()
     }
 }
 
-suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mappingThrowable(): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mappingThrowable(): T = withContext(Dispatchers.Default) {
     this@mappingThrowable.base.results?.let {
         Gson().fromJson<T>(it)
     } ?: run {
@@ -31,7 +31,7 @@ suspend inline fun <reified T> SuccessWrapper<SpikeSuccessResponse<T>>.mappingTh
     }
 }
 
-suspend inline fun <reified T> ErrorWrapper<SpikeErrorResponse<T>>.mapping(): T? = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> ErrorWrapper<SpikeErrorResponse<T>>.mapping(): T? = withContext(Dispatchers.Default) {
     this@mapping.base.results?.let {
         Gson().fromJsonOrNull<T>(it)
     } ?: run {
@@ -39,7 +39,7 @@ suspend inline fun <reified T> ErrorWrapper<SpikeErrorResponse<T>>.mapping(): T?
     }
 }
 
-suspend inline fun <reified T> ErrorWrapper<SpikeErrorResponse<T>>.mappingThrowable(): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> ErrorWrapper<SpikeErrorResponse<T>>.mappingThrowable(): T = withContext(Dispatchers.Default) {
     this@mappingThrowable.base.results?.let {
         Gson().fromJson<T>(it)
     } ?: run {

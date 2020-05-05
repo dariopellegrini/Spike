@@ -86,13 +86,13 @@ class MainActivity : AppCompatActivity() {
 
             // Function with global request
             try {
-                val response = request<List<Movie>> {
+                val movies = request<List<Movie>> {
                     baseURL = "https://api.tvmaze.com/"
                     path = "shows"
                     method = SpikeMethod.GET
                     headers = mapOf("Content-Type" to "application/json")
                 }.suspend.mapping()
-                Log.i("Spike", "${response}")
+                Log.i("Spike", "${movies}")
             } catch(e: SpikeProviderException) {
                 val error = e.errorResponse<TVMazeError>().mapping()
                 Log.e("Spike", "$e")
