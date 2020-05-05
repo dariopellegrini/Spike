@@ -394,11 +394,11 @@ try {
 ```
 
 By default `mapping` function returns `null` if a mapping error is thrown.  
-In order to throw mapping error `mappingThrowable` function is available.
+In order to throw mapping error, `mappingThrowable` function is available.
 
 ### Coroutine
 Mapping process can be expensive for large body sizes and can block main thread, freezing UI.  
-To avoid that suspend mapping function are supported.
+To avoid that, suspend mapping function are supported.
 ```kotlin
 try {
     val movies = request<List<Movie>> {
@@ -416,7 +416,7 @@ try {
 }
 ```
 
-Suspend mapping function are executed on `Dispatchers.Default`.
+Suspend mapping function are executed on `Dispatchers.Default` starting from version 0.23.2.
 
 ## TODO
 - Testing.
