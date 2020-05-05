@@ -11,6 +11,7 @@ import com.dariopellegrini.spike.builder.request
 import com.dariopellegrini.spike.builder.requestAny
 import com.dariopellegrini.spike.mapping.mapping
 import com.dariopellegrini.spike.mapping.mappingThrowable
+import com.dariopellegrini.spike.mapping.suspending
 import com.dariopellegrini.spikeapp.model.Movie
 import com.dariopellegrini.spikeapp.model.TVMazeError
 import kotlinx.coroutines.CoroutineScope
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     path = "shows"
                     method = SpikeMethod.GET
                     headers = mapOf("Content-Type" to "application/json")
-                }.mappingThrowable()
+                }.suspending.mapping()
                 Log.i("Spike", "${response}")
             } catch(e: SpikeProviderException) {
                 val error = e.errorResponse<TVMazeError>().mapping()
