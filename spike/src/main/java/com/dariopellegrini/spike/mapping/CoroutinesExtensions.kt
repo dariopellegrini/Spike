@@ -10,7 +10,7 @@ import java.io.IOException
 class SuccessWrapper<T>(val base: T)
 class ErrorWrapper<T>(val base: T)
 
-val <T>SpikeSuccessResponse<T>.suspending: SuccessWrapper<SpikeSuccessResponse<T>>
+val <T>SpikeSuccessResponse<T>.suspend: SuccessWrapper<SpikeSuccessResponse<T>>
     get() = SuccessWrapper(this)
 val <T>SpikeErrorResponse<T>.suspending: ErrorWrapper<SpikeErrorResponse<T>>
     get() = ErrorWrapper(this)
