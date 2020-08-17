@@ -22,7 +22,7 @@ Then add as dependency to yout app/build.gradle
 ``` groovy
 dependencies {
     ...
-    implementation 'com.github.dariopellegrini:Spike:v0.16'
+    implementation 'com.github.dariopellegrini:Spike:v0.23.2'
 }
 ```
 Versions below 0.10 of this library use apache http libraries, that need the following code at the end of the android section in app/build.gradle. From version 0.10 this is not necessary.
@@ -374,6 +374,50 @@ CoroutineScope(Dispatchers.Main).launch {
         })
 ```
 
+## Mapping
+Starting from version 0.22, mapping methods based on Gson has been introduced, for success and error responses.
+```kotlin
+try {
+    val movies = request<List<Movie>> {
+        baseURL = "https://api.tvmaze.com/"
+        path = "shows"
+        method = SpikeMethod.GET
+        headers = mapOf("Content-Type" to "application/json")
+    }.mapping()
+    Log.i("Spike", "${movies}") // List<Movie>
+} catch(e: SpikeProviderException) {
+    val error = e.errorResponse<TVMazeError>().mapping() // TVMazeError
+    Log.e("Spike", "$e")
+} catch (e: Exception) {
+    Log.e("Spike", "$e")
+}
+```
+
+By default `mapping` function returns `null` if a mapping error is thrown.  
+In order to throw mapping error `mappingThrowable` function is available.
+
+### Coroutine
+Mapping process can be expensive for large body sizes and can block main thread, freezing UI.  
+To avoid that, suspend mapping function are supported.
+```kotlin
+try {
+    val movies = request<List<Movie>> {
+        baseURL = "https://api.tvmaze.com/"
+        path = "shows"
+        method = SpikeMethod.GET
+        headers = mapOf("Content-Type" to "application/json")
+    }.suspend.mapping()
+    Log.i("Spike", "${movies}") // List<Movie>
+} catch(e: SpikeProviderException) {
+    val error = e.errorResponse<TVMazeError>().suspend.mapping() // TVMazeError
+    Log.e("Spike", "$e")
+} catch (e: Exception) {
+    Log.e("Spike", "$e")
+}
+```
+
+Suspend mapping function are executed on `Dispatchers.Default` starting from version 0.23.2.
+
 ## TODO
 - Testing.
 
@@ -384,3 +428,4 @@ Dario Pellegrini, pellegrini.dario.1303@gmail.com
 ## Credits
 - [Volley](https://github.com/google/volley)
 - [Moya for Swift](https://github.com/Moya/Moya)
+- [Gson](https://github.com/google/gson)
