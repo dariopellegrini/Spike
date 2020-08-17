@@ -5,8 +5,9 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
-import org.json.JSONObject
-import java.util.HashMap
+import com.dariopellegrini.spike.utilities.getJsonStringFromMap
+import java.util.*
+
 
 /**
  * Created by dariopellegrini on 25/07/17.
@@ -20,7 +21,7 @@ class SpikeJsonRequest : JsonRequest<SpikeNetworkResponse> {
                 parameters: Map<String, Any>?,
                 responseListener: Response.Listener<SpikeNetworkResponse>,
                 errorListener: Response.ErrorListener):
-            super(method, url, (if (parameters == null) null else JSONObject(parameters).toString()), responseListener, errorListener) {
+            super(method, url, (if (parameters == null) null else getJsonStringFromMap(parameters)), responseListener, errorListener) {
         this.headers = headers as MutableMap<String, String>?
     }
 
@@ -51,5 +52,4 @@ class SpikeJsonRequest : JsonRequest<SpikeNetworkResponse> {
     override fun getBodyContentType(): String {
         return super.getBodyContentType()
     }
-
 }
