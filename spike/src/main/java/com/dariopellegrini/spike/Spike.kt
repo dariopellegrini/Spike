@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.dariopellegrini.spike.java.CustomHurlStack
 import com.dariopellegrini.spike.network.SpikeNetwork
 import java.net.CookieHandler
 import java.net.CookieManager
@@ -32,9 +33,9 @@ class Spike private constructor() {
     fun configure(context: Context) {
         val cookieManager = CookieManager()
         CookieHandler.setDefault(cookieManager)
-        queue = Volley.newRequestQueue(context)
+        queue = newRequest(context)
         this.network = SpikeNetwork(queue)
     }
 
-    var b:String? = null
+    fun newRequest(context: Context) = Volley.newRequestQueue(context, CustomHurlStack())
 }

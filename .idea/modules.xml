@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Spike.iml" filepath="$PROJECT_DIR$/Spike.iml" group="Spike" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Spike/app" />
-      <module fileurl="file://$PROJECT_DIR$/spike/spike.iml" filepath="$PROJECT_DIR$/spike/spike.iml" group="Spike/spike" />
+      <module fileurl="file://$PROJECT_DIR$/Spike.iml" filepath="$PROJECT_DIR$/Spike.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Spike.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Spike.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spike/Spike.spike.iml" filepath="$PROJECT_DIR$/.idea/modules/spike/Spike.spike.iml" />
     </modules>
   </component>
 </project>
