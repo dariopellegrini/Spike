@@ -11,6 +11,8 @@ import com.dariopellegrini.spike.request
 import com.dariopellegrini.spike.requestAny
 import com.dariopellegrini.spike.mapping.mapping
 import com.dariopellegrini.spike.mapping.suspend
+import com.dariopellegrini.spike.utilities.applicationXWWWFormUrlEncoded
+import com.dariopellegrini.spike.utilities.contentType
 import com.dariopellegrini.spikeapp.model.Movie
 import com.dariopellegrini.spikeapp.model.TVMazeError
 import kotlinx.coroutines.CoroutineScope
@@ -69,14 +71,17 @@ class MainActivity : AppCompatActivity() {
             // Function with global provider and typesafe computed result
             try {
                 val response = request<JSONObject> {
-                    baseURL = "https://my.website/users/"
-                    path = "login"
+                    baseURL = "https://figcidentitydev.elog.it"
+                    path = "/oidc/access_token"
                     method = SpikeMethod.POST
-                    headers = mapOf("Content-Type" to "application/json")
-                    parameters = mapOf("username" to "admin", "password" to "password")
-                    successClosure = { response, header ->
-                        JSONObject()
-                    }
+                    headers = mapOf(contentType to applicationXWWWFormUrlEncoded)
+                    parameters = mapOf(
+                        "grant_type" to "authorization_code",
+                        "code" to "F5B9874FACA86AEC6F81BC2DE0D01EE3",
+                        "client_id" to "settoretecnico_app_test",
+                        "client_secret" to "H7=VJsps0!kd(jEf",
+                        "redirect_uri" to "kamafigc://redirect/"
+                    )
                 }
                 Log.i("Spike", "${response.computedResult}")
             } catch(e: SpikeProviderException) {
@@ -85,53 +90,53 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Function with global request
-            try {
-                val movies = request<List<Movie>> {
-                    baseURL = "https://api.tvmaze.com/"
-                    path = "shows"
-                    method = SpikeMethod.GET
-                    headers = mapOf("Content-Type" to "application/json")
-                }.suspend.mapping()
-                Log.i("Spike", "${movies}")
-            } catch(e: SpikeProviderException) {
-                val error = e.errorResponse<TVMazeError>().mapping()
-                Log.e("Spike", "$e")
-            } catch (e: Exception) {
-                Log.e("Spike", "$e")
-            }
+//            try {
+//                val movies = request<List<Movie>> {
+//                    baseURL = "https://api.tvmaze.com/"
+//                    path = "shows"
+//                    method = SpikeMethod.GET
+//                    headers = mapOf("Content-Type" to "application/json")
+//                }.suspend.mapping()
+//                Log.i("Spike", "${movies}")
+//            } catch(e: SpikeProviderException) {
+//                val error = e.errorResponse<TVMazeError>().mapping()
+//                Log.e("Spike", "$e")
+//            } catch (e: Exception) {
+//                Log.e("Spike", "$e")
+//            }
         }
 
         // Callbacks
 
         // Function with global provider and typesafe computed result
-        request<JSONObject, JSONObject>({
-            baseURL = "https://api.tvmaze.com/"
-            path = "shows"
-            method = SpikeMethod.GET
-            headers = mapOf("Content-Type" to "application/json")
-            successClosure = { response, header ->
-                JSONObject()
-            }
-            errorClosure = { response, header ->
-                JSONObject()
-            }
-        }, onSuccess = { response ->
-            Log.i("Spike", "${response.computedResult}")
-
-        }, onError = { error ->
-            Log.e("Spike", "${error.computedResult}")
-        })
-
-        // Function with global provider
-        requestAny({
-            baseURL = "https://api.tvmaze.com/"
-            path = "shows"
-            method = SpikeMethod.GET
-            headers = mapOf("Content-Type" to "application/json")
-        }, onSuccess = { response ->
-            Log.i("Spike", "${response}")
-        }, onError = { error ->
-            Log.e("Spike", "$error")
-        })
+//        request<JSONObject, JSONObject>({
+//            baseURL = "https://api.tvmaze.com/"
+//            path = "shows"
+//            method = SpikeMethod.GET
+//            headers = mapOf("Content-Type" to "application/json")
+//            successClosure = { response, header ->
+//                JSONObject()
+//            }
+//            errorClosure = { response, header ->
+//                JSONObject()
+//            }
+//        }, onSuccess = { response ->
+//            Log.i("Spike", "${response.computedResult}")
+//
+//        }, onError = { error ->
+//            Log.e("Spike", "${error.computedResult}")
+//        })
+//
+//        // Function with global provider
+//        requestAny({
+//            baseURL = "https://api.tvmaze.com/"
+//            path = "shows"
+//            method = SpikeMethod.GET
+//            headers = mapOf("Content-Type" to "application/json")
+//        }, onSuccess = { response ->
+//            Log.i("Spike", "${response}")
+//        }, onError = { error ->
+//            Log.e("Spike", "$error")
+//        })
     }
 }

@@ -51,7 +51,6 @@ class SpikeJsonRequest : JsonRequest<SpikeNetworkResponse> {
 
 
     override fun getBodyContentType(): String {
-        return headers?.get(contentType) ?: headers?.get(contentType.toUpperCase(Locale.ROOT)) ?: headers?.get(contentType.toLowerCase(Locale.ROOT))
-        ?: super.getBodyContentType()
+        return headers?.let { contentType(it) } ?: super.getBodyContentType()
     }
 }

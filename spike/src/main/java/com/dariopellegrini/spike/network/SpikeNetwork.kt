@@ -4,6 +4,8 @@ import android.util.Log
 import com.android.volley.*
 import com.dariopellegrini.spike.multipart.SpikeMultipartEntity
 import com.dariopellegrini.spike.multipart.SpikeMultipartRequest
+import com.dariopellegrini.spike.utilities.applicationXWWWFormUrlEncoded
+import com.dariopellegrini.spike.utilities.contentType
 
 @Suppress("NAME_SHADOWING")
 /**
@@ -37,7 +39,7 @@ class SpikeNetwork(val requestQueue: RequestQueue) {
                     multipartEntities: List<SpikeMultipartEntity>?,
                     completion: (response: SpikeNetworkResponse?, error: VolleyError?) -> Unit): SpikeJsonRequest {
         var currentURL = url
-        if (parameters != null && method == SpikeMethod.GET) {
+        if (parameters != null && (method == SpikeMethod.GET || contentType(headers)?.equals(applicationXWWWFormUrlEncoded, true) == true)) {
             currentURL = currentURL + "?"
             for (entry in parameters.entries) {
                 currentURL = currentURL + entry.key + "=" + entry.value.toString() + "&"
