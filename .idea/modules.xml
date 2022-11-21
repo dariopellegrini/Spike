@@ -4,7 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Spike.iml" filepath="$PROJECT_DIR$/Spike.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Spike.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Spike.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Spike.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Spike.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Spike.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Spike.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Spike.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Spike.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spike/Spike.spike.iml" filepath="$PROJECT_DIR$/.idea/modules/spike/Spike.spike.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spike/Spike.spike.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/spike/Spike.spike.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spike/Spike.spike.main.iml" filepath="$PROJECT_DIR$/.idea/modules/spike/Spike.spike.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spike/Spike.spike.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/spike/Spike.spike.unitTest.iml" />
     </modules>
   </component>
 </project>
