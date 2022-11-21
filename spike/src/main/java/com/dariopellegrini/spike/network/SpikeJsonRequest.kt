@@ -5,6 +5,7 @@ import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
+import com.dariopellegrini.spike.utilities.contentType
 import com.dariopellegrini.spike.utilities.getJsonStringFromMap
 import java.util.*
 
@@ -50,6 +51,7 @@ class SpikeJsonRequest : JsonRequest<SpikeNetworkResponse> {
 
 
     override fun getBodyContentType(): String {
-        return super.getBodyContentType()
+        return headers?.get(contentType) ?: headers?.get(contentType.toUpperCase(Locale.ROOT)) ?: headers?.get(contentType.toLowerCase(Locale.ROOT))
+        ?: super.getBodyContentType()
     }
 }
