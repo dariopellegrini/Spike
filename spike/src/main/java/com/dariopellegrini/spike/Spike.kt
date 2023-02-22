@@ -20,6 +20,8 @@ class Spike private constructor() {
     var network: SpikeNetwork? = null
     private lateinit var queue: RequestQueue
 
+    var verboseExceptions: Boolean? = null
+
     init {
         Log.i("Spike", "Init Spike")
     }

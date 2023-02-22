@@ -175,8 +175,8 @@ class SpikeProvider<in T : TargetType> {
                 maxRetries,
                 backoffMultiplier)
 
-    class SpikeProviderException(private val provider: SpikeProvider<*>,
-                                 private val target: TargetType,
+    class SpikeProviderException(val provider: SpikeProvider<*>,
+                                 val target: TargetType,
                                  private val volleyError: VolleyError): Exception() {
         fun <E>errorResponse(): SpikeErrorResponse<E> {
             return provider.createErrorResponse(volleyError, target)
@@ -187,5 +187,14 @@ class SpikeProvider<in T : TargetType> {
                 val s = if (volleyError.networkResponse == null) -1001 else volleyError.networkResponse.statusCode
                 return s
             }
+
+        val requestUrl get() = target.baseURL + target.path
+
+        override fun toString(): String {
+            if (Spike.instance.verboseExceptions == true) {
+                return "${this::class.java} $requestUrl $statusCode ${errorResponse<Any>().results}"
+            }
+            return super.toString()
+        }
     }
 }

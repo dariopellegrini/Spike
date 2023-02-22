@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Spike.instance.configure(this)
+        Spike.instance.verboseExceptions = true
     }
 
     fun doSomething(view: View) {
@@ -71,22 +72,18 @@ class MainActivity : AppCompatActivity() {
             // Function with global provider and typesafe computed result
             try {
                 val response = request<JSONObject> {
-                    baseURL = "https://figcidentitydev.elog.it"
-                    path = "/oidc/access_token"
+                    baseURL = "https://hello.it"
+                    path = "/hello"
                     method = SpikeMethod.POST
                     headers = mapOf(contentType to applicationXWWWFormUrlEncoded)
                     parameters = mapOf(
-                        "grant_type" to "authorization_code",
-                        "code" to "F5B9874FACA86AEC6F81BC2DE0D01EE3",
-                        "client_id" to "settoretecnico_app_test",
-                        "client_secret" to "H7=VJsps0!kd(jEf",
-                        "redirect_uri" to "kamafigc://redirect/"
+                        "hello" to "Hello"
                     )
                 }
                 Log.i("Spike", "${response.computedResult}")
             } catch(e: SpikeProviderException) {
                 val s = e.statusCode
-                Log.e("Spike", "$e")
+                Log.e("Spike", "$e $s")
             }
 
             // Function with global request

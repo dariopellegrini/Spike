@@ -1,6 +1,7 @@
 package com.dariopellegrini.spike.response
 
 import com.android.volley.VolleyError
+import com.dariopellegrini.spike.TargetType
 
 /**
  * Created by dariopellegrini on 25/07/17.
