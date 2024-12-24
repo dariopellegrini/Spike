@@ -11,8 +11,8 @@ import com.dariopellegrini.spike.utilities.contentType
 /**
  * Created by dariopellegrini on 19/05/2017.
  */
-class SpikeNetwork(val requestQueue: RequestQueue) {
-    var retryPolicy: DefaultRetryPolicy? = null
+class SpikeNetwork(val requestQueue: RequestQueue, var retryPolicy: DefaultRetryPolicy? = null) {
+
     init {
         Log.i("SpikeNetwork", "Init Spike network")
     }

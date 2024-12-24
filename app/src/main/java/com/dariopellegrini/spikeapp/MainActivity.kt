@@ -8,13 +8,8 @@ import com.dariopellegrini.spike.response.Spike
 import com.dariopellegrini.spike.network.SpikeMethod
 import com.dariopellegrini.spike.SpikeProvider.*
 import com.dariopellegrini.spike.request
-import com.dariopellegrini.spike.requestAny
-import com.dariopellegrini.spike.mapping.mapping
-import com.dariopellegrini.spike.mapping.suspend
 import com.dariopellegrini.spike.utilities.applicationXWWWFormUrlEncoded
 import com.dariopellegrini.spike.utilities.contentType
-import com.dariopellegrini.spikeapp.model.Movie
-import com.dariopellegrini.spikeapp.model.TVMazeError
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
